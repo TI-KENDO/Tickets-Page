@@ -1,0 +1,144 @@
+---
+interface Faq {
+    question: string;
+    answer: string;
+}
+
+interface Props {
+    title?: string;
+    description?: string;
+    faqs?: Faq[];
+}
+
+const {
+    title = "Preguntas Frecuentes",
+    description = "Aquí tienes respuestas a las preguntas más frecuentes sobre Tickets-App.",
+    faqs = [
+        {
+            question: "1. ¿El sistema es en la nube?",
+            answer: "Sí, es 100% basado en la nube, lo que te permite acceder de forma segura desde cualquier navegador y lugar sin necesidad de instalaciones locales."
+        },
+        {
+            question: "2. ¿Cuál es la disponibilidad de los técnicos?",
+            answer: "La disponibilidad se define según los SLA personalizados de tu empresa, permitiendo configurar horarios de atención estándar o soporte 24/7."
+        },
+        {
+            question: "3. ¿Tiene app móvil?",
+            answer: "Sí, cuenta con una aplicación móvil responsiva para que tanto los agentes como los usuarios gestionen sus tickets en tiempo real desde cualquier dispositivo."
+        },
+        {
+            question: "4. ¿Se puede personalizar?",
+            answer: "Totalmente. Puedes ajustar flujos de trabajo, campos de información, vistas de usuario, categorías y permisos según los procesos de tu organización."
+        },
+        {
+            question: "5. ¿Genera reportes?",
+            answer: "Sí, incluye un módulo de reportería y analítica avanzada para medir el rendimiento del equipo, tiempos de resolución y satisfacción del cliente."
+        },
+        {
+            question: "6. ¿Se puede integrar con otros sistemas (CRM / ERP)?",
+            answer: "Sí, la plataforma permite una fácil integración empresarial con tus herramientas corporativas mediante API para unificar los flujos de datos."
+        },
+        {
+            question: "7. ¿Cuenta con herramientas de Inteligencia Artificial?",
+            answer: "Sí, incorpora asistentes de IA para automatizar respuestas rápidas, clasificar incidentes y realizar análisis de sentimiento en los comentarios."
+        },
+        {
+            question: "8. ¿Cómo ayuda a reducir la carga de soporte?",
+            answer: "A través de una Base de Conocimiento integrada donde puedes publicar artículos de ayuda para que los usuarios resuelvan dudas comunes por sí mismos."
+        },
+        {
+            question: "9. ¿Qué tan segura es la plataforma?",
+            answer: "Es un sistema robusto y escalable que cuenta con protocolos de cifrado de datos, respaldos automáticos y control estricto de accesos para proteger tu información."
+        },
+        {
+            question: "10. ¿Cómo se asignan o clasifican los tickets?",
+            answer: "Se organizan automáticamente por departamentos, servicios, prioridades o mediante reglas de automatización inteligente basadas en el tipo de solicitud."
+        }
+    ]
+} = Astro.props;
+
+const midIndex = Math.ceil(faqs.length / 2);
+const leftFaqs = faqs.slice(0, midIndex);
+const rightFaqs = faqs.slice(midIndex);
+---
+
+<div class="faq-area de-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 offset-xl-2">
+                <div class="site-title text-center">
+                    <h2>{title}</h2>
+                    <p class="mb-0">
+                        {description}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="faq-wpr grid-2">
+            <div class="course-accordion">
+                <div class="accordion" id="accordionExample">
+                    {leftFaqs.map((faq, index) => (
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id={`headingLeft${index}`}>
+                                <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target={`#collapseLeft${index}`}
+                                    aria-expanded="false"
+                                    aria-controls={`collapseLeft${index}`}
+                                >
+                                    {faq.question}
+                                </button>
+                            </h2>
+                            <div
+                                id={`collapseLeft${index}`}
+                                class="accordion-collapse collapse"
+                                aria-labelledby={`headingLeft${index}`}
+                                data-bs-parent="#accordionExample"
+                            >
+                                <div class="accordion-body">
+                                    <p class="mb-0">
+                                        {faq.answer}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div class="course-accordion">
+                <div class="accordion" id="accordion2">
+                    {rightFaqs.map((faq, index) => (
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id={`headingRight${index}`}>
+                                <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target={`#collapseRight${index}`}
+                                    aria-expanded="false"
+                                    aria-controls={`collapseRight${index}`}
+                                >
+                                    {faq.question}
+                                </button>
+                            </h2>
+                            <div
+                                id={`collapseRight${index}`}
+                                class="accordion-collapse collapse"
+                                aria-labelledby={`headingRight${index}`}
+                                data-bs-parent="#accordion2"
+                            >
+                                <div class="accordion-body">
+                                    <p class="mb-0">
+                                        {faq.answer}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

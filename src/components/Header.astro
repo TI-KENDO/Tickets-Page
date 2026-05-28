@@ -1,0 +1,76 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import logoWhiteImg from "../assets/img/logo/logo-white.svg";
+import logoImg from "../assets/img/logo/logo.svg";
+
+export interface NavItem {
+  label: string;
+  href: string;
+}
+
+export interface Props {
+  logoDisplay?: ImageMetadata;
+  logoScrolled?: ImageMetadata;
+  navItems?: NavItem[];
+}
+
+const {
+  logoDisplay = logoWhiteImg,
+  logoScrolled = logoImg,
+  navItems = [
+    { label: "Inicio", href: "/" },
+    { label: "Acerca de", href: "/about" },
+    { label: "Caracteristicas", href: "#features" },
+    { label: "Precios", href: "/pricing" },
+    { label: "Contacto", href: "/contact" },
+  ],
+} = Astro.props;
+
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html';
+const filteredNavItems = navItems.filter(item => isHome || !item.href.startsWith('#'));
+---
+
+<header class="header header-1">
+  <div class="main-navigation">
+    <nav id="navbar_top" class="navbar navbar-expand-lg">
+      <div class="container g-0">
+        <a class="navbar-brand" href="/">
+          <Image
+            src={logoDisplay}
+            class="logo-display"
+            alt="Logo blanco de Kendodesk"
+          />
+          <Image
+            src={logoScrolled}
+            class="logo-scrolled"
+            alt="Logo de Kendodesk"
+          />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#main_nav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"><i class="ti-menu-alt"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main_nav">
+          <ul class="navbar-nav ms-auto">
+            {
+              filteredNavItems.map((item) => (
+                <li class="nav-item">
+                  <a class="nav-link" href={item.href}>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>

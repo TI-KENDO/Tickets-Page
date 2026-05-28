@@ -1,0 +1,55 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+import dashboard1Img from "../assets/img/dashboard/dashboard.png";
+import dashboard2Img from "../assets/img/dashboard/dashboard2.png";
+import dashboard3Img from "../assets/img/dashboard/dashboard3.png";
+import lineShapeImg from "../assets/img/shape/line-shape.png";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  screenshots?: (string | ImageMetadata)[];
+}
+
+const {
+  title = "Capturas",
+  description = "Behind sooner dining so window excuse he summer.",
+  screenshots = [
+    dashboard1Img,
+    dashboard2Img,
+    dashboard3Img,
+  ],
+} = Astro.props;
+---
+
+<!-- Screenshots Section -->
+<div class="scr-area pos-rel de-padding">
+  <div class="scr-shape">
+    <Image src={lineShapeImg} alt="shape" />
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-8 offset-xl-2">
+        <div class="site-title text-center">
+          <h2>{title}</h2>
+          <p class="mb-0">{description}</p>
+        </div>
+      </div>
+    </div>
+    <div class="scr-wpr scr-sldr owl-carousel owl-theme">
+      {
+        screenshots.map((src) => (
+          <div class="scr-pic">
+            {typeof src === "string" ? (
+              <img src={src} alt="screenshot" />
+            ) : (
+              <Image src={src} alt="screenshot" />
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+---
+export interface CounterItem {
+  icon: string;
+  count: number;
+  label: string;
+}
+
+export interface Props {
+  items?: CounterItem[];
+}
+
+const defaultItems: CounterItem[] = [
+  { icon: "flaticon-user", count: 200, label: "Usuarios activos" },
+  { icon: "flaticon-chat", count: 150, label: "Reseñas de usuarios" },
+  { icon: "flaticon-arrow-chart", count: 630, label: "Descargas totales" },
+];
+
+const { items = defaultItems } = Astro.props;
+---
+
+<!-- Counter Section -->
+<div class="counter-area de-pt">
+  <img
+    src="/assets/img/shape/icon-3.png"
+    class="circle-shape round-move"
+    alt="thumb"
+  />
+  <div class="container ">
+    <div class="counter-wpr counter-1">
+      <div class="counter grid-3">
+        {
+          items.map((item) => (
+            <div class="fun-fact">
+              <div class="fun-icon">
+                <i class={item.icon} />
+              </div>
+              <div class="fun-desc">
+                <p
+                  class="timer"
+                  data-count="+"
+                  data-to={item.count}
+                  data-speed="3000"
+                >
+                  {item.count}
+                </p>
+                <span class="medium">{item.label}</span>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>

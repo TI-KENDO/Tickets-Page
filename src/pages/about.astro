@@ -1,0 +1,31 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import AboutSection from "../components/AboutSection.astro";
+import Counter from "../components/Counter.astro";
+---
+
+<Layout
+  title="Acerca de KendoDesk | Plataforma de Helpdesk y Gestión de Tickets"
+  description="Conoce la misión, visión, valores y el equipo detrás de Kendodesk, la plataforma de helpdesk líder en Latinoamérica para gestión de tickets de soporte TI."
+  canonical="https://kendodesk.com/about"
+>
+  <PageHero
+    title="Acerca de KendoDesk"
+    subtitle="Simplificamos el soporte de TI para que tu equipo se enfoque en lo que importa."
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Acerca de" },
+    ]}
+  />
+
+  <AboutSection />
+
+  <Counter
+    items={[
+      { icon: "flaticon-user",          count: 200, label: "Empresas activas"    },
+      { icon: "flaticon-chat",          count: 50000, label: "Tickets al mes"    },
+      { icon: "flaticon-arrow-chart",   count: 99,  label: "% de uptime"        },
+    ]}
+  />
+</Layout>

@@ -1,0 +1,131 @@
+---
+export interface Props {
+  title?: string;
+  address?: string;
+  phone?: string;
+  email?: string;
+  formAction?: string;
+}
+
+const {
+  title = "¿Buscas agilizar el soporte y la atención de tus usuarios?",
+  address = "...",
+  phone = "(55) 1328-7995",
+  email = "ventas@tikendo.com.mx",
+  formAction = "/assets/mail/contact.php",
+} = Astro.props;
+---
+
+<!-- Contact Section -->
+<div class="contact-us pos-rel de-pt">
+  <div class="con-shape">
+    <img src="/assets/img/shape/line-shape-2.png" alt="thumb" />
+  </div>
+  <div class="container">
+    <div class="contact-us-wpr">
+      <div class="row g-5">
+        <div class="col-xl-6 col-lg-6">
+          <div class="contact-content">
+            <div class="contact-bottom">
+              <h2 class="site-heading mb-40">{title}</h2>
+              <div class="addr-box">
+                <div class="addr-box-single">
+                  <div class="addr-icon">
+                    <i class="flaticon-location"></i>
+                  </div>
+                  <div class="addr-desc">
+                    <h5>Ubicación de las oficinas</h5>
+                    <p class="mb-0">{address}</p>
+                  </div>
+                </div>
+                <div class="addr-box-single">
+                  <div class="addr-icon">
+                    <i class="flaticon-call"></i>
+                  </div>
+                  <div class="addr-desc">
+                    <h5>Llámanos</h5>
+                    <p class="mb-0">{phone}</p>
+                  </div>
+                </div>
+                <div class="addr-box-single">
+                  <div class="addr-icon">
+                    <i class="flaticon-envelope"></i>
+                  </div>
+                  <div class="addr-desc">
+                    <h5>Envíanos un correo a</h5>
+                    <p class="mb-0">{email}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6">
+          <form class="contact-form" method="post" action={formAction}>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control input-style-2"
+                    name="fname"
+                    placeholder="Coloca tu nombre completo*"
+                  />
+                  <span class="alert alert-error"></span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input
+                    type="email"
+                    class="form-control input-style-2"
+                    name="email"
+                    placeholder="Coloca tu correo electrónico*"
+                  />
+                  <span class="alert alert-error"></span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control input-style-2"
+                    name="phone"
+                    placeholder="Numero telefonico"
+                  />
+                  <span class="alert alert-error"></span>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control input-style-2"
+                    name="subject"
+                    placeholder="Asunto..."
+                  />
+                  <span class="alert alert-error"></span>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <textarea
+                  class="form-control input-style-2"
+                  name="message"
+                  placeholder="Coloca tu mensaje..."></textarea>
+                <div class="contact-sub-btn text-center">
+                  <button type="submit" name="submit" id="submit" class="btn-4">
+                    Enviar mensaje
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                <div class="alert-notification">
+                  <div id="message" class="alert-msg"></div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

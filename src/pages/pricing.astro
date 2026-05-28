@@ -1,0 +1,313 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import Pricing from "../components/Pricing.astro";
+import Faqs from "../components/Faqs.astro";
+import Contact from "../components/Contact.astro";
+---
+
+<Layout
+  title="Precios y Planes | KendoDesk - Plataforma de Helpdesk"
+  description="Conoce los planes y precios de KendoDesk. Elige el plan ideal para tu empresa y comienza a gestionar tus tickets de soporte de forma eficiente."
+  canonical="https://kendodesk.com/pricing"
+>
+  <PageHero
+    title="Planes y Precios"
+    subtitle="Elige el plan que mejor se adapte a las necesidades de tu empresa. Sin compromisos, cancela cuando quieras."
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Precios" },
+    ]}
+  />
+
+  <Pricing
+    title="Nuestros Planes"
+    description="Ofrecemos planes flexibles diseñados para empresas de todos los tamaños. Cada plan incluye acceso completo a la plataforma con soporte dedicado."
+    plans={[
+      {
+        name: "Básico",
+        price: 130,
+        currency: "$",
+        period: "por mes",
+        features: [
+          "Hasta 5 agentes",
+          "Gestión de tickets ilimitada",
+          "Soporte por correo electrónico",
+          "Base de conocimiento básica",
+          "Reportes estándar",
+          "1 departamento",
+          "SLA básico",
+        ],
+        ctaText: "Comenzar",
+        ctaLink: "/contact",
+      },
+      {
+        name: "Estándar",
+        price: 150,
+        currency: "$",
+        period: "por mes",
+        features: [
+          "Hasta 15 agentes",
+          "Gestión de tickets ilimitada",
+          "Soporte 24/7 por chat y correo",
+          "Base de conocimiento completa",
+          "Reportes avanzados y analítica",
+          "5 departamentos",
+          "SLA personalizado",
+        ],
+        ctaText: "Comenzar",
+        ctaLink: "/contact",
+      },
+      {
+        name: "Premium",
+        price: 180,
+        currency: "$",
+        period: "por mes",
+        features: [
+          "Agentes ilimitados",
+          "Gestión de tickets ilimitada",
+          "Soporte 24/7 prioritario",
+          "IA para clasificación automática",
+          "Integraciones API (CRM/ERP)",
+          "Departamentos ilimitados",
+          "SLA avanzado con automatización",
+        ],
+        ctaText: "Comenzar",
+        ctaLink: "/contact",
+      },
+    ]}
+  />
+
+  <!-- Sección de comparación de características -->
+  <section class="pricing-comparison de-padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-8 offset-xl-2">
+          <div class="site-title text-center">
+            <h2>Comparación de Planes</h2>
+            <p class="mb-0">
+              Compara las características de cada plan para encontrar el que mejor se adapte a tu equipo.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="comparison-table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th class="feature-col">Característica</th>
+              <th>Básico</th>
+              <th class="highlight-col">Estándar</th>
+              <th>Premium</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="feature-col">Agentes</td>
+              <td>Hasta 5</td>
+              <td class="highlight-col">Hasta 15</td>
+              <td>Ilimitados</td>
+            </tr>
+            <tr>
+              <td class="feature-col">Tickets</td>
+              <td>Ilimitados</td>
+              <td class="highlight-col">Ilimitados</td>
+              <td>Ilimitados</td>
+            </tr>
+            <tr>
+              <td class="feature-col">Departamentos</td>
+              <td>1</td>
+              <td class="highlight-col">5</td>
+              <td>Ilimitados</td>
+            </tr>
+            <tr>
+              <td class="feature-col">Base de conocimiento</td>
+              <td>Básica</td>
+              <td class="highlight-col">Completa</td>
+              <td>Completa + IA</td>
+            </tr>
+            <tr>
+              <td class="feature-col">Reportes y analítica</td>
+              <td>Estándar</td>
+              <td class="highlight-col">Avanzados</td>
+              <td>Avanzados + IA</td>
+            </tr>
+            <tr>
+              <td class="feature-col">Soporte</td>
+              <td>Correo</td>
+              <td class="highlight-col">24/7 Chat + Correo</td>
+              <td>24/7 Prioritario</td>
+            </tr>
+            <tr>
+              <td class="feature-col">SLA</td>
+              <td>Básico</td>
+              <td class="highlight-col">Personalizado</td>
+              <td>Avanzado</td>
+            </tr>
+            <tr>
+              <td class="feature-col">Automatización</td>
+              <td><i class="ti-close text-muted"></i></td>
+              <td class="highlight-col"><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-col">Integraciones API</td>
+              <td><i class="ti-close text-muted"></i></td>
+              <td class="highlight-col"><i class="ti-close text-muted"></i></td>
+              <td><i class="ti-check cl"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-col">IA integrada</td>
+              <td><i class="ti-close text-muted"></i></td>
+              <td class="highlight-col"><i class="ti-close text-muted"></i></td>
+              <td><i class="ti-check cl"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-col">App móvil</td>
+              <td><i class="ti-check cl"></i></td>
+              <td class="highlight-col"><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <Faqs
+    title="Preguntas sobre Precios"
+    description="Resolvemos tus dudas más comunes sobre nuestros planes y facturación."
+    faqs={[
+      {
+        question: "¿Puedo cambiar de plan en cualquier momento?",
+        answer:
+          "Sí, puedes actualizar o cambiar tu plan en cualquier momento desde tu panel de administración. El cambio se refleja de forma inmediata y el cobro se ajusta de manera proporcional.",
+      },
+      {
+        question: "¿Ofrecen un periodo de prueba gratuito?",
+        answer:
+          "Sí, todos los planes incluyen un periodo de prueba de 14 días sin compromiso. No se requiere tarjeta de crédito para comenzar.",
+      },
+      {
+        question: "¿Qué métodos de pago aceptan?",
+        answer:
+          "Aceptamos tarjetas de crédito y débito (Visa, MasterCard, American Express), transferencia bancaria y PayPal. Para planes Enterprise, también ofrecemos facturación mensual o anual.",
+      },
+      {
+        question: "¿Hay descuento por pago anual?",
+        answer:
+          "Sí, al elegir el pago anual obtienes un 20% de descuento sobre el precio mensual. Contacta a nuestro equipo de ventas para más detalles.",
+      },
+      {
+        question: "¿Qué pasa si excedo el límite de agentes de mi plan?",
+        answer:
+          "Te notificaremos cuando estés cerca del límite. Podrás agregar agentes adicionales o actualizar tu plan fácilmente sin interrupciones en el servicio.",
+      },
+      {
+        question: "¿Puedo cancelar mi suscripción en cualquier momento?",
+        answer:
+          "Sí, puedes cancelar tu suscripción cuando lo desees. No hay penalización ni cargos por cancelación anticipada. Tendrás acceso hasta el final del periodo de facturación.",
+      },
+    ]}
+  />
+
+  <Contact />
+</Layout>
+
+<style>
+  /* ── Comparison Table ── */
+  .pricing-comparison {
+    background-color: var(--clr-bg, #f8f9fa);
+  }
+
+  .comparison-table-wrapper {
+    overflow-x: auto;
+    border-radius: 1.6rem;
+    box-shadow: 0 0 29px rgba(0, 0, 0, 0.07);
+    background-color: #fff;
+  }
+
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.5rem;
+    min-width: 60rem;
+  }
+
+  .comparison-table thead {
+    background: linear-gradient(135deg, #003871 0%, #0a5dad 100%);
+  }
+
+  .comparison-table thead th {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    padding: 2rem 2.5rem;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  .comparison-table thead th.feature-col {
+    text-align: left;
+  }
+
+  .comparison-table tbody tr {
+    transition: background-color 0.25s ease;
+  }
+
+  .comparison-table tbody tr:nth-child(even) {
+    background-color: rgba(0, 56, 113, 0.03);
+  }
+
+  .comparison-table tbody tr:hover {
+    background-color: rgba(0, 56, 113, 0.07);
+  }
+
+  .comparison-table td {
+    padding: 1.6rem 2.5rem;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    color: var(--clr-body, #555);
+  }
+
+  .comparison-table td.feature-col {
+    text-align: left;
+    font-weight: 600;
+    color: var(--clr-heading, #222);
+  }
+
+  .comparison-table .highlight-col {
+    background-color: rgba(54, 155, 244, 0.06);
+    position: relative;
+  }
+
+  .comparison-table thead .highlight-col {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .comparison-table .ti-check {
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .comparison-table .ti-close {
+    font-size: 1.2rem;
+  }
+
+  .text-muted {
+    color: #ccc !important;
+  }
+
+  @media (max-width: 768px) {
+    .comparison-table-wrapper {
+      border-radius: 1rem;
+    }
+
+    .comparison-table td,
+    .comparison-table th {
+      padding: 1.2rem 1.5rem;
+      font-size: 1.3rem;
+    }
+  }
+</style>

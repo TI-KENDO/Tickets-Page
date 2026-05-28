@@ -1,0 +1,314 @@
+---
+// src/components/Anatomy.astro
+---
+
+<!-- Carga del CSS extraído en los assets -->
+<link href="/assets/css/anatomy.css" rel="stylesheet" />
+
+<div class="anatomy-section">
+    <div class="page">
+        <div class="header">
+            <h1>Anatomía del Ticket de Soporte</h1>
+            <p>
+                Cada sección nos ayuda a entender y resolver tu solicitud de
+                forma más rápida y eficiente.
+            </p>
+        </div>
+
+        <div class="anatomy-layout">
+            <!-- LEFT CALLOUTS -->
+            <div class="callouts-left">
+                <div class="callout" data-target="tipo">
+                    <div class="callout-header">
+                        <div class="callout-num">1</div>
+                        <div class="callout-title">Tipo de incidencia</div>
+                    </div>
+                    <div class="callout-body">
+                        Permite clasificar la solicitud según su naturaleza para
+                        una mejor atención.
+                    </div>
+                </div>
+
+                <div class="callout" data-target="descripcion">
+                    <div class="callout-header">
+                        <div class="callout-num">2</div>
+                        <div class="callout-title">
+                            Especificación / Detalle
+                        </div>
+                    </div>
+                    <div class="callout-body">
+                        Este apartado ayuda a precisar la incidencia mediante una subcategoria o detalle más específico. 
+                    </div>
+                </div>
+
+                <div class="callout" data-target="adicional">
+                    <div class="callout-header">
+                        <div class="callout-num">3</div>
+                        <div class="callout-title">Descripción del Problema</div>
+                    </div>
+                    <div class="callout-body">
+                        El usuario debe escribir qué sucede, cúando ocurre y cómo afecta su trabajo.
+                    </div>
+                </div>
+
+                <div class="callout" data-target="evidencia">
+                    <div class="callout-header">
+                        <div class="callout-num">4</div>
+                        <div class="callout-title">Evidencia (opcional)</div>
+                    </div>
+                    <div class="callout-body">
+                        Adjunta capturas, documentos o archivos relacionados.
+                    </div>
+                </div>
+                <div class="callout" data-target="clasificacion">
+                    <div class="callout-header">
+                        <div class="callout-num">5</div>
+                        <div class="callout-title">Clasificación interna</div>
+                    </div>
+                    <div class="callout-body">
+                        Campos usados por el equipo para priorizar, asignar y
+                        medir el impacto.
+                    </div>
+                </div>
+
+                <div class="callout" data-target="acciones">
+                    <div class="callout-header">
+                        <div class="callout-num">6</div>
+                        <div class="callout-title">Acciones</div>
+                    </div>
+                    <div class="callout-body">
+                        Botones para cancelar o crear el ticket.
+                    </div>
+                </div>
+            </div>
+
+            <!-- CENTER FORM -->
+            <div class="form-center">
+                <div class="form-card">
+                    <div class="form-top-bar">
+                        <div>
+                            <h2>Nuevo Ticket de Soporte</h2>
+                            <p>Registra los detalles de tu solicitud</p>
+                        </div>
+                        <button class="btn-volver">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                ><path d="M19 12H5M12 5l-7 7 7 7"></path>
+                            </svg>
+                            Volver
+                        </button>
+                    </div>
+
+                    <div class="form-body">
+                        <div class="field-block" data-section="tipo">
+                            <div class="field-label">
+                                01. Tipo de incidencia
+                            </div>
+
+                            <div class="steps-bar" data-section="steps">
+                                <div class="step-tab active">
+                                    <div class="step-circle">1</div>
+                                    <div class="step-tab-label">
+                                        Identificar
+                                    </div>
+                                </div>
+                                <div class="step-tab">
+                                    <div class="step-circle">2</div>
+                                    <div class="step-tab-label">Software</div>
+                                </div>
+                                <div class="step-tab">
+                                    <div class="step-circle">3</div>
+                                    <div class="step-tab-label">Hardware</div>
+                                </div>
+                                <div class="step-tab">
+                                    <div class="step-circle">4</div>
+                                    <div class="step-tab-label">Impresoras</div>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="field-block" data-section="descripcion">
+                            <div class="field-label">
+                                02. Especificación / Detalle
+                            </div>
+                            <div class="field-mock">
+                                <span>Selecciona el tipo de incidencia</span>
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    ><path d="M6 9l6 6 6-6"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="field-block" data-section="adicional">
+                            <div class="field-label">
+                                03. Descripción del Problema
+                            </div>
+                            <div class="field-textarea-mock">
+                                <span
+                                    >Agrega cualquier detalle relevante, pasos
+                                    realizados, mensajes de error, etc.</span
+                                >
+                                <svg class="resize-handle" viewBox="0 0 10 10"
+                                    ><path
+                                        d="M9 1L1 9M9 5L5 9M9 9H9"
+                                        stroke="#666"
+                                        stroke-width="1.5"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="field-block" data-section="evidencia">
+                            <div class="field-label">
+                                04. Evidencia (opcional)
+                            </div>
+                            <div class="upload-zone">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                    ><path
+                                        d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"
+                                    ></path>
+                                </svg>
+                                <div class="upload-main">
+                                    Arrastra y suelta archivos aquí
+                                </div>
+                                <div class="upload-hint">
+                                    Formatos permitidos: .jpg, .png, .pdf
+                                    &nbsp;·&nbsp; Máx. 10MB
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field-block" data-section="clasificacion">
+                            <div class="field-label">
+                                05. Clasificación interna
+                            </div>
+                            <div class="inline-selects">
+                                <div>
+                                    <div
+                                        style="font-size:11px;color:#8a92a3;margin-bottom:4px;"
+                                    >
+                                        Prioridad
+                                    </div>
+                                    <div
+                                        class="field-mock"
+                                        style="font-size:12px;"
+                                    >
+                                        <span>Selecciona prioridad</span>
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            ><path d="M6 9l6 6 6-6"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        style="font-size:11px;color:#8a92a3;margin-bottom:4px;"
+                                    >
+                                        Área responsable
+                                    </div>
+                                    <div
+                                        class="field-mock"
+                                        style="font-size:12px;"
+                                    >
+                                        <span>Selecciona área</span>
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            ><path d="M6 9l6 6 6-6"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        style="font-size:11px;color:#8a92a3;margin-bottom:4px;"
+                                    >
+                                        Impacto
+                                    </div>
+                                    <div
+                                        class="field-mock"
+                                        style="font-size:12px;"
+                                    >
+                                        <span>Selecciona impacto</span>
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            ><path d="M6 9l6 6 6-6"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+
+                    <div class="form-actions" data-section="acciones">
+                        <button class="btn-cancel">Cancelar</button>
+                        <button class="btn-create">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                ><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"
+                                ></path>
+                            </svg>
+                            Crear ticket
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT CALLOUTS -->
+            <!--
+            <div class="callouts-right">
+                
+
+                <div class="callout" data-target="clasificacion">
+                    <div class="callout-header">
+                        <div class="callout-num">5</div>
+                        <div class="callout-title">Clasificación interna</div>
+                    </div>
+                    <div class="callout-body">
+                        Campos usados por el equipo para priorizar, asignar y
+                        medir el impacto.
+                    </div>
+                </div>
+
+                <div class="callout" data-target="acciones">
+                    <div class="callout-header">
+                        <div class="callout-num">6</div>
+                        <div class="callout-title">Acciones</div>
+                    </div>
+                    <div class="callout-body">
+                        Botones para cancelar o crear el ticket.
+                    </div>
+                </div>
+            </div>
+            -->
+        </div>
+    </div>
+</div>
+
+<!-- Carga del JS extraído en los assets -->
+<script src="/assets/js/anatomy.js" is:inline></script>

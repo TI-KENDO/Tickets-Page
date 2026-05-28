@@ -1,0 +1,160 @@
+---
+interface Skill {
+    title: string;
+    percentage: number;
+}
+
+interface Feature {
+    icon: string;
+    title: string;
+    description: string;
+    linkUrl?: string;
+    linkText?: string;
+    color?: string;
+}
+
+interface Props {
+    title?: string;
+    description?: string;
+    skills?: Skill[];
+    features?: Feature[];
+}
+
+const {
+    title = "Innovación Tecnológica a tu Medida",
+    description = "Nuestra plataforma de tickets se adapta a la operación de tu empresa, permitiéndote personalizar categorías, SLA, prioridades y flujos de trabajo.",
+    skills = [
+        { title: "Software driven", percentage: 49 },
+        { title: "Service up time", percentage: 98 },
+        { title: "Hardware structure", percentage: 90 },
+    ],
+    features = [
+        {
+            icon: "flaticon-chat",
+            title: "Integración Responsiva",
+            description: "Conecta todos tus canales de comunicación y gestiona tickets desde un solo lugar.",
+            color: "#369BF4",
+        },
+        {
+            icon: "flaticon-support-1",
+            title: "SLA Personalizadas",
+            description: "Define tiempos de respuesta y resolución según las necesidades de tu empresa.",
+            color: "#FF4A17",
+        },
+        {
+            icon: "flaticon-folder",
+            title: "Base de Conocimiento",
+            description: "Crea y gestiona artículos de ayuda para reducir la carga de soporte.",
+            color: "#209FA3",
+        },
+        {
+            icon: "flaticon-arrow-chart",
+            title: "Reportería y Analíticas",
+            description: "Genera informes detallados para medir el rendimiento de tu equipo.",
+            color: "#5416CF",
+        },
+        {
+            icon: "flaticon-shuttle",
+            title: "Plataforma Personalizable",
+            description: "Ajusta flujos, campos, vistas y permisos para adaptarse a tus procesos.",
+            color: "#E83A59",
+        },
+        {
+            icon: "flaticon-insurance",
+            title: "Escalable y Seguro",
+            description: "Una plataforma robusta, segura y lista para crecer con tu organización.",
+            color: "#F4B836",
+        },
+        {
+            icon: "flaticon-computer",
+            title: "Inteligencia Artificial",
+            description: "Aprovecha asistentes de IA para respuestas automáticas y análisis de sentimiento.",
+            color: "#18C974",
+        },
+        {
+            icon: "flaticon-call-center",
+            title: "Integración Empresarial",
+            description: "Conecta fácilmente con tus herramientas corporativas como ERP y CRM.",
+            color: "#003871",
+        },
+    ],
+} = Astro.props;
+---
+
+<section id="features" class="fet-count pos-rel de-pt">
+    <span class="fet-shp fps"></span>
+    <div class="container">
+        <div class="fet-count-wpr">
+            <div class="cnt-area grid-2">
+                <div class="cnt-left">
+                    <h2>
+                        {title}
+                    </h2>
+                    <p>
+                        {description}
+                    </p>
+                </div>
+                <div class="cnt-right">
+                   
+                </div>
+            </div>
+            <div class="fet-cnt-area grid-4 mt-100">
+                {
+                    features.map((feature) => (
+                        <div class="fet-cnt-box" style={`--custom-color: ${feature.color}; border-top: 4px solid var(--custom-color);`}>
+                            <div class="fet-cnt-icon" style={`background-color: color-mix(in srgb, var(--custom-color) 15%, transparent);`}>
+                                <i class={feature.icon} style={`color: var(--custom-color);`} />
+                            </div>
+                            <div class="fet-cnt-desc">
+                                <h5>{feature.title}</h5>
+                                <p>{feature.description}</p>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .fet-cnt-box {
+        transition: all 0.3s ease;
+        border-radius: 8px;
+        background: #fff;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .fet-cnt-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .fet-cnt-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+    .fet-cnt-box:hover .fet-cnt-icon {
+        transform: scale(1.1);
+    }
+    .fet-cnt-icon i {
+        font-size: 28px;
+        transition: all 0.3s ease;
+    }
+    .fet-cnt-desc h5 {
+        color: var(--clr-heading, #1a1a1a);
+        margin-bottom: 15px;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+    .fet-cnt-desc p {
+        color: var(--clr-body, #666);
+        margin-bottom: 0;
+        line-height: 1.6;
+    }
+</style>

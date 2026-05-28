@@ -1,0 +1,141 @@
+---
+export interface FooterLink {
+  label: string;
+  url: string;
+}
+
+export interface SocialLink {
+  iconClass: string;
+  url: string;
+}
+
+export interface Props {
+  aboutText?: string;
+  quickLinks?: FooterLink[];
+  helpfulLinks?: FooterLink[];
+  address?: string;
+  email?: string;
+  phone?: string;
+  copyrightYear?: number | string;
+  companyName?: string;
+  socialLinks?: SocialLink[];
+}
+
+const {
+  aboutText = "Nuestra plataforma de tickets se adapta a la operación de tu empresa, permitiéndote personalizar categorías, SLA, prioridades y flujos de trabajo.",
+  quickLinks = [
+    { label: "Inicio", url: "/" },
+    { label: "Nosotros", url: "/about" },
+    { label: "Paquetes", url: "/pricing" },
+    { label: "Contacto", url: "/contact" },
+  ],
+  helpfulLinks = [{ label: "TI-KENDO", url: "https://www.tikendo.com.mx" }],
+  address = "5919 Trussville Crossings Pkwy, Birmingham AL 35235",
+  email = "ventas@tikendo.mx",
+  phone = "601-594-3504",
+  copyrightYear = "2021",
+  companyName = "TIKENDO",
+  socialLinks = [
+    { iconClass: "fab fa-facebook-f", url: "https://www.facebook.com/tikndo" },
+    {
+      iconClass: "fab fa-instagram",
+      url: "https://www.instagram.com/ti_kendo",
+    },
+    { iconClass: "fab fa-twitter", url: "https://x.com/ti_kndo" },
+    { iconClass: "fab fa-youtube", url: "https://www.youtube.com/@TI_KNDO" },
+  ],
+} = Astro.props;
+---
+
+<footer>
+  <div class="fq-shape">
+    <img src="/assets/img/shape/shape-5.png" alt="thumb" />
+  </div>
+  <div class="footer-widget">
+    <div class="container">
+      <div class="footer-widget-wpr de-padding">
+        <div class="row g-5">
+          <div class="col-xl-4 col-md-6">
+            <div class="footer-widget-box about-us">
+              <div class="footer-logo">
+                <img src="/assets/img/logo/logo-footer.png" alt="thumb" />
+              </div>
+              <p>{aboutText}</p>
+            </div>
+          </div>
+          <div class="col-xl-2 col-md-6">
+            <div class="footer-widget-box list">
+              <h4 class="footer-widget-title">Dentro de KendoDesk</h4>
+              <ul class="footer-list">
+                {
+                  quickLinks.map((link) => (
+                    <li>
+                      <a href={link.url}>{link.label}</a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+          <div class="col-xl-2 col-md-6">
+            <div class="footer-widget-box list">
+              <h4 class="footer-widget-title">Otros enlaces</h4>
+              <ul class="footer-list">
+                {
+                  helpfulLinks.map((link) => (
+                    <li>
+                      <a href={link.url}>{link.label}</a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="footer-widget-box in-touch">
+              <h4 class="footer-widget-title">Ponte en contacto</h4>
+              <div class="footer-address">
+                <ul>
+                  <li><strong>Dirección:</strong> {address}</li>
+                  <li>
+                    <strong>Correo electrónico:</strong>
+                    <a href={`mailto:${email}`}>{email}</a>
+                  </li>
+                  <li><strong>Teléfono:</strong> {phone}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="copyright">
+    <div class="container">
+      <div class="copyright-content">
+        <p class="mb-0">
+          Copyright © {copyrightYear}.Todos los derechos reservados a
+          <a
+            href="https://www.tikendo.com.mx"
+            class="temp-bucket"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {companyName}
+          </a>
+        </p>
+        <ul class="footer-social">
+          {
+            socialLinks.map((social) => (
+              <li>
+                <a href={social.url}>
+                  <i class={social.iconClass} />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>

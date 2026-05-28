@@ -1,0 +1,120 @@
+---
+export interface PricingPlan {
+  name: string;
+  price: number;
+  currency?: string;
+  period?: string;
+  features: string[];
+  ctaText?: string;
+  ctaLink?: string;
+}
+
+export interface Props {
+  title?: string;
+  description?: string;
+  plans?: PricingPlan[];
+}
+
+const {
+  title = "Pricing Table",
+  description = `Outlived no dwelling denoting in peculiar as he believed. Behaviour excellent middleton
+    be as it curiosity departure ourselves very extreme future.`,
+  plans = [
+    {
+      name: "Basic",
+      price: 130,
+      currency: "$",
+      period: "per month",
+      features: [
+        "Business Analyzing",
+        "24/7 Tech Suport",
+        "Operational Excellence",
+        "Knowledge Management",
+        "Business Idea Ready",
+        "10 Database",
+        "Customer Support",
+      ],
+      ctaText: "Purchase",
+      ctaLink: "/checkout",
+    },
+    {
+      name: "Standard",
+      price: 150,
+      currency: "$",
+      period: "per month",
+      features: [
+        "Full Business Analyzing",
+        "24/7 Tech Suport",
+        "Next Generation Accounting",
+        "Online Staff Training Sessions",
+        "Business Idea Ready",
+        "20 Database",
+        "Customer Support",
+      ],
+      ctaText: "Purchase",
+      ctaLink: "/checkout",
+    },
+    {
+      name: "Premium",
+      price: 180,
+      currency: "$",
+      period: "per month",
+      features: [
+        "Digital Transformation",
+        "24/7 Tech Suport",
+        "Supply Chain Optimization",
+        "E-mail support",
+        "Business Idea Ready",
+        "Unlimited Database",
+        "Customer Support",
+      ],
+      ctaText: "Purchase",
+      ctaLink: "/checkout",
+    },
+  ],
+} = Astro.props;
+---
+
+<!-- Pricing Section -->
+<section id="pricing" class="pricing-area bg pos-rel de-pt">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-8 offset-xl-2">
+        <div class="site-title text-center">
+          <h2>{title}</h2>
+          <p class="mb-0">{description}</p>
+        </div>
+      </div>
+    </div>
+    <div class="pricing-wrapper grid-3">
+      {
+        plans.map((plan) => (
+          <div class="price-box">
+            <h4 class="price-ribon">{plan.name}</h4>
+            <div class="price-head">
+              <div class="price-head-content">
+                <h3>
+                  <span>{plan.currency ?? "$"}</span>
+                  {plan.price}
+                </h3>
+                <h6>{plan.period ?? "per month"}</h6>
+              </div>
+            </div>
+            <div class="price-desc">
+              <ul>
+                {plan.features.map((feature) => (
+                  <li>{feature}</li>
+                ))}
+              </ul>
+            </div>
+            <div class="price-bottom">
+              <a href={plan.ctaLink ?? "/checkout"} class="btn-4" target="_blank">
+                {plan.ctaText ?? "Purchase"}
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

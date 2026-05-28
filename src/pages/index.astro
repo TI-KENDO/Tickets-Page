@@ -1,0 +1,38 @@
+---
+// src/pages/index.astro
+import Anatomy from "../components/Anatomy.astro";
+import Contact from "../components/Contact.astro";
+import Counter from "../components/Counter.astro";
+import Faqs from "../components/Faqs.astro";
+import FeatureCounter from "../components/FeatureCounter.astro";
+import Features from "../components/Features.astro";
+import HeroSlider from "../components/HeroSlider.astro";
+import Pricing from "../components/Pricing.astro";
+import Screenshots from "../components/Screenshots.astro";
+import Steps from "../components/Steps.astro";
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import laptopImg from "../assets/img/header/laptop.png";
+---
+
+<Layout title="Tickets-App - Software">
+  <HeroSlider />
+  <div class="lp">
+    <div class="container">
+      <div class="lp-wpr">
+        <div class="lp-pic">
+          <Image src={laptopImg} alt="Vista del software en laptop" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <Features />
+  <Counter />
+  <FeatureCounter />
+  <Screenshots />
+  <Anatomy />
+  <Steps />
+  <Pricing />
+  <Faqs />
+  <Contact />
+</Layout>

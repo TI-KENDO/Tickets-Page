@@ -1,0 +1,62 @@
+---
+export interface Feature {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+export interface Props {
+  features?: Feature[];
+}
+
+const defaultFeatures: Feature[] = [
+  {
+    icon: "icofont-ui-settings",
+    title: "Automatización de Procesos",
+    description:
+      "Centraliza y agiliza la gestión de incidencias para reducir tiempos de atención y aumentar la productividad.",
+  },
+  {
+    icon: "icofont-megaphone",
+    title: "Mejor experiencia para usuarios",
+    description:
+      "Brinda seguimiento claro y respuestas más rápidas, mejorando la satisfacción de clientes.",
+  },
+  {
+    icon: "icofont-gift",
+    title: "Comunicación eficiente",
+    description:
+      "Mantén una interacción organizada entre usuarios y técnicos mediante actualizaciones y notificaciones.",
+  },
+  {
+    icon: "icofont-life-buoy",
+    title: "Control y análisis del soporte",
+    description:
+      "Obtén métricas, prioridades y reportes que ayuden a tomar mejores decisiones y optimizar recursos.",
+  },
+];
+
+const { features = defaultFeatures } = Astro.props;
+---
+
+<!-- Feature Section -->
+<div class="feature-area de-pt">
+  <div class="container">
+    <h1 class="feature-title" >El mejor software de Mesa de Ayuda</h1>
+    <div class="feature-wpr grid-2">
+      {
+        features.map((feature) => (
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class={feature.icon} />
+            </div>
+            <div class="feature-desc">
+              <h4>{feature.title}</h4>
+              <p class="mb-0">{feature.description}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>

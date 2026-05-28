@@ -1,0 +1,194 @@
+---
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+export interface Props {
+  title: string;
+  subtitle?: string;
+  breadcrumbs?: BreadcrumbItem[];
+  backgroundClass?: string;
+}
+
+const {
+  title,
+  subtitle,
+  breadcrumbs = [],
+  backgroundClass = "page-hero-default",
+} = Astro.props;
+---
+
+<!-- Page Hero / Breadcrumb -->
+<section
+  class={`page-hero pos-rel ${backgroundClass}`}
+  aria-label="Encabezado de página"
+>
+  <div class="page-hero-overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-8 offset-xl-2 text-center">
+        <div class="page-hero-content">
+          <h1 class="page-hero-title">{title}</h1>
+          {subtitle && <p class="page-hero-subtitle">{subtitle}</p>}
+          {
+            breadcrumbs.length > 0 && (
+              <nav aria-label="Breadcrumb" class="page-breadcrumb">
+                <ol class="breadcrumb-list">
+                  {breadcrumbs.map((crumb, i) => {
+                    const isLast = i === breadcrumbs.length - 1;
+                    const linkEl = crumb.href ? (
+                      <a href={crumb.href}>{crumb.label}</a>
+                    ) : (
+                      <span aria-current="page">{crumb.label}</span>
+                    );
+                    return (
+                      <li class="breadcrumb-item">
+                        {linkEl}
+                        {!isLast && (
+                          <span class="breadcrumb-sep" aria-hidden="true">
+                            <i class="ti-angle-right" />
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ol>
+              </nav>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    padding: 16rem 0 10rem;
+    position: relative;
+    background: linear-gradient(135deg, #003871 0%, #0a5dad 50%, #369bf4 100%);
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .page-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+        circle at 20% 50%,
+        rgba(122, 200, 253, 0.15) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 20%,
+        rgba(54, 155, 244, 0.2) 0%,
+        transparent 40%
+      );
+    z-index: 0;
+  }
+
+  /* Decorative animated blobs */
+  .page-hero::after {
+    content: "";
+    position: absolute;
+    top: -8rem;
+    right: -8rem;
+    width: 40rem;
+    height: 40rem;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+    z-index: 0;
+    animation: up-move 8s ease-in-out infinite;
+  }
+
+  .page-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 30, 80, 0.25);
+    z-index: 0;
+  }
+
+  .page-hero .container {
+    position: relative;
+    z-index: 2;
+  }
+
+  .page-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6rem;
+  }
+
+  .page-hero-title {
+    font-size: 5.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    margin: 0;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .page-hero-subtitle {
+    font-size: 1.8rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    font-weight: 400;
+    max-width: 60rem;
+  }
+
+  .page-breadcrumb {
+    margin-top: 0.8rem;
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+
+  .breadcrumb-item a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .breadcrumb-item a:hover {
+    color: #ffffff;
+  }
+
+  .breadcrumb-item span[aria-current="page"] {
+    color: #7ac8fd;
+    font-weight: 600;
+  }
+
+  .breadcrumb-sep {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .page-hero {
+      padding: 14rem 0 8rem;
+    }
+    .page-hero-title {
+      font-size: 3.6rem;
+    }
+  }
+</style>

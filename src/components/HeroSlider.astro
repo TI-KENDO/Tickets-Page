@@ -1,0 +1,84 @@
+---
+import { Image, getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import headerShapeImg from "../assets/img/header/header-shape.png";
+import sliderImg from "../assets/img/header/slider.png";
+import slider2Img from "../assets/img/header/slider2.png";
+
+export interface Slide {
+  title: string;
+  description: string;
+  ctaText: string;
+  ctaLink: string;
+  backgroundImage: string | ImageMetadata;
+}
+
+export interface Props {
+  slides?: Slide[];
+}
+
+const defaultSlides: Slide[] = [
+  {
+    title: "¿Estas buscando una App de Tickets?",
+    description: "Kendodesk es una plataforma ideal para tus necesidades empresariales",
+    ctaText: "Contacto",
+    ctaLink: "/contact",
+    backgroundImage: sliderImg,
+  },
+  {
+    title: "Capta, gestiona y organiza",
+    description:
+      "Centraliza las solicitudes de soporte de tu área de ti y mejora la eficiencia de servicio a tus usuarios finales.",
+    ctaText: "Precios",
+    ctaLink: "/contact",
+    backgroundImage: slider2Img,
+  },
+];
+
+const { slides = defaultSlides } = Astro.props;
+
+const optimizedSlides = await Promise.all(
+  slides.map(async (slide) => {
+    let bgUrl = slide.backgroundImage;
+    // Si la imagen importada es un objeto ImageMetadata, la optimizamos
+    if (typeof bgUrl !== "string") {
+      const optImg = await getImage({ src: bgUrl, format: "webp" });
+      bgUrl = optImg.src;
+    }
+    return { ...slide, bgUrl };
+  })
+);
+---
+
+<!-- Hero Slider -->
+<section id="home" class="hero-section hm-3 auto-height">
+  <div class="hero-shape">
+    <Image src={headerShapeImg} alt="Hero shape" />
+  </div>
+  <div class="hero-section-content hero-sldr owl-carousel owl-theme">
+    {
+      optimizedSlides.map((slide) => (
+        <div
+          class="hero-single"
+          style={`background-image: url(${slide.bgUrl})`}
+        >
+          <div class="container">
+            <div class="row">
+              <div class="col-xl-8 offset-xl-2">
+                <div class="hero-content">
+                  <h2 class="hero-title text-center">{slide.title}</h2>
+                  <p class="text-center">{slide.description}</p>
+                  <div class="hero-btn">
+                    <a href={slide.ctaLink} target="_blank" class="tm-btn">
+                      {slide.ctaText}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

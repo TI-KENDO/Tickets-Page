@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import Contact from "../components/Contact.astro";
+---
+
+<Layout
+  title="Contacto | Kendodesk"
+  description="Ponte en contacto con nuestro equipo para agilizar el soporte y la atención de tus usuarios con Kendodesk."
+  canonical="https://kendodesk.com/contact"
+>
+  <PageHero
+    title="Contáctanos"
+    subtitle="Estamos aquí para ayudarte. Ponte en contacto con nosotros para cualquier duda o consulta."
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Contacto" },
+    ]}
+  />
+
+  <Contact />
+</Layout>

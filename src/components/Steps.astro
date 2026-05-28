@@ -1,0 +1,98 @@
+---
+export interface Step {
+  number: number;
+  icon: string;
+  title: string;
+  description: string;
+}
+
+export interface Props {
+  title?: string;
+  description?: string;
+  steps?: Step[];
+  rightTitle?: string;
+  rightDescription?: string;
+  rightImage?: string;
+}
+
+const {
+  title = "Asi funciona KendoDesk",
+  description = `Un flujo simple y eficiente para gestionar incidencias de soporte técnico desde la creación hasta la resolución.`,
+  steps = [
+    {
+      number: 1,
+      icon: "flaticon-support-1",
+      title: "Creación del Ticket",
+      description:
+        "Los usuarios reportan incidencias facilmente desde el portal, correo o sistema interno",
+    },
+    {
+      number: 2,
+      icon: "flaticon-folder",
+      title: "Clasificar y asignar",
+      description:
+        "Clasifica, prioriza y asigna automaticamente cada ticket al equipo o técnico responsable",
+    },
+    {
+      number: 3,
+      icon: "flaticon-shuttle",
+      title: "Dar Seguimiento ",
+      description:
+        "El técnico da seguimiento, agrega comentarios y mantiene comunicación con el usuario en tiempo real.",
+    },
+    {
+      number: 4,
+      icon: "flaticon-insurance",
+      title: "Resolución y Reportes",
+      description:
+        "El ticket se resuelve, se documenta y se generan reportes para mejorar continuamente el servicio.",
+    },
+  ],
+  rightTitle = "Optimiza tu soporte técnico en pocos pasos",
+  rightDescription = `KendoDesk permite administrar solicitudes de soporte de manera organizada, automatizada y medible. Desde la creación del ticket hasta su resolución, cada proceso está diseñado para mejorar la productividad y reducir tiempos de respuesta`,
+  rightImage = "/assets/img/bg/tikito-2.svg",
+} = Astro.props;
+---
+
+<!-- Steps Section -->
+<div class="step-are pos-rel de-pt">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-8 offset-xl-2">
+        <div class="site-title text-center">
+          <h2>{title}</h2>
+          <p class="mb-0">{description}</p>
+        </div>
+      </div>
+    </div>
+    <div class="step-wpr grid-2">
+      <div class="step-left grid-2">
+        {
+          steps.map((step) => (
+            <div class="step-box">
+              <div class="step-up">
+                <span class="step-ribbon">paso {step.number}</span>
+                <i class={step.icon} />
+              </div>
+              <div class="step-content">
+                <h5>{step.title}</h5>
+                <p class="mb-0">{step.description}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <div class="step-right">
+        <div class="step-right-content">
+          <h2 class="counter-title feature-title">{rightTitle}</h2>
+          <div class="step-tx mb-40">
+            <p class="mb-0">{rightDescription}</p>
+          </div>
+          <div class="step-pic">
+            <img src={rightImage} alt="thumb" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
