@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kendesk.tikendo.com.mx/sitemap-index.xml
