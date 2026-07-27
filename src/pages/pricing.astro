@@ -12,9 +12,9 @@ import Contact from "../components/Contact.astro";
   canonical="https://kendesk.com/pricing"
 >
   <PageHero
-    title="Planes y Precios"
+    title="Planes KenDesk"
     subtitle="Elige el plan que mejor se adapte a las necesidades de tu empresa. Sin compromisos, cancela cuando quieras."
-    breadcrumbs={[{ label: "Inicio", href: "/" }, { label: "Precios" }]}
+    breadcrumbs={[{ label: "Inicio", href: "/" }, { label: "Planes" }]}
   />
 
   <Pricing
@@ -25,7 +25,7 @@ import Contact from "../components/Contact.astro";
         name: "Essential",
         price: 130,
         currency: "$",
-        period: "por mes",
+        description: "La potencia de un Help Desk profesional, sin complicaciones.",
         features: [
           "Portal de Autoservicio",
           "Gestión de Tickets por SLA",
@@ -41,7 +41,7 @@ import Contact from "../components/Contact.astro";
         name: "Business",
         price: 150,
         currency: "$",
-        period: "por mes",
+        description: "Automatiza tu soporte y conéctalo con tu ecosistema tecnológico.",
         features: [
           "Automatización Avanzada (Triggers)",
           "Gestión de Activos (CMDB)",
@@ -56,7 +56,7 @@ import Contact from "../components/Contact.astro";
         name: "Enterprise",
         price: 180,
         currency: "$",
-        period: "por mes",
+        description: "El sistema crece contigo. Desarrollamos lo que tu negocio necesita.",
         features: [
           "Desarrollo de Módulos a Medida",
           "Integraciones a la Medida",
