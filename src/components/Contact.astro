@@ -11,7 +11,7 @@ const {
   title = "¿Buscas agilizar el soporte y la atención de tus usuarios?",
   phone = "(55) 1328-7995",
   email = "ventas@tikendo.com.mx",
-  formAction = "/assets/mail/contact.php",
+  formAction = "/api/contact",
 } = Astro.props;
 ---
 
@@ -61,6 +61,7 @@ const {
                     class="form-control input-style-2"
                     name="fname"
                     placeholder="Coloca tu nombre completo*"
+                    required
                   />
                   <span class="alert alert-error"></span>
                 </div>
@@ -72,6 +73,7 @@ const {
                     class="form-control input-style-2"
                     name="email"
                     placeholder="Coloca tu correo electrónico*"
+                    required
                   />
                   <span class="alert alert-error"></span>
                 </div>
@@ -102,7 +104,8 @@ const {
                 <textarea
                   class="form-control input-style-2"
                   name="message"
-                  placeholder="Coloca tu mensaje..."></textarea>
+                  placeholder="Coloca tu mensaje..."
+                  required></textarea>
                 <div class="contact-sub-btn text-center">
                   <button type="submit" name="submit" id="submit" class="btn-4">
                     Enviar mensaje
@@ -120,3 +123,46 @@ const {
     </div>
   </div>
 </div>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>(".contact-form").forEach((form) => {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const submitBtn = form.querySelector<HTMLButtonElement>("#submit");
+      const messageBox = form.querySelector<HTMLDivElement>("#message");
+      if (!messageBox) return;
+
+      submitBtn?.setAttribute("disabled", "disabled");
+      messageBox.textContent = "Enviando...";
+      messageBox.className = "alert-msg";
+
+      try {
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+
+        const response = await fetch(form.action, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.ok) {
+          messageBox.textContent = "¡Gracias! Tu mensaje fue enviado correctamente.";
+          messageBox.className = "alert-msg alert-success";
+          form.reset();
+        } else {
+          messageBox.textContent = result.error || "No se pudo enviar el mensaje. Intenta de nuevo.";
+          messageBox.className = "alert-msg alert-error";
+        }
+      } catch {
+        messageBox.textContent = "Error de conexión. Intenta de nuevo más tarde.";
+        messageBox.className = "alert-msg alert-error";
+      } finally {
+        submitBtn?.removeAttribute("disabled");
+      }
+    });
+  });
+</script>
