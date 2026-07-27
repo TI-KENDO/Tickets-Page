@@ -65,7 +65,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     }
 
     const to = env.CONTACT_TO_EMAIL || "soporte@tikendo.com.mx";
-    const from = env.CONTACT_FROM_EMAIL || "Kendesk <formulario@tikendo.com.mx>";
+    const from = env.CONTACT_FROM_EMAIL || "Kendesk <formulario@kendesk.tikendo.com.mx>";
 
     const text = [
       `Nombre: ${fname}`,
@@ -96,13 +96,13 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       });
     } catch (err) {
       console.error("Fallo al llamar a Resend:", err instanceof Error ? err.message : err);
-      return jsonResponse({ ok: false, error: "No se pudo contactar al servicio de correo." }, 502);
+      return jsonResponse({ ok: false, error: "No se pudo contactar al servicio de correo." }, 500);
     }
 
     if (!resendResponse.ok) {
       const errorBody = await resendResponse.text();
       console.error("Resend error:", resendResponse.status, errorBody);
-      return jsonResponse({ ok: false, error: "No se pudo enviar el mensaje. Intenta de nuevo más tarde." }, 502);
+      return jsonResponse({ ok: false, error: "No se pudo enviar el mensaje. Intenta de nuevo más tarde." }, 500);
     }
 
     return jsonResponse({ ok: true }, 200);
