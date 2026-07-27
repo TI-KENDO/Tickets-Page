@@ -1,0 +1,300 @@
+---
+import { Image } from "astro:assets";
+import lineShapeImg from "../assets/img/shape/line-shape.png";
+
+export interface Props {
+  phone?: string;
+  message?: string;
+  title?: string;
+  subtitle?: string;
+  buttonText?: string;
+}
+
+const {
+  phone = "+52 5549022481",
+  message = "Hola, me gustaría recibir una demo del software de KendoDesk y agendar una demostración.",
+  title = "¿Deseas una demo del software?",
+  subtitle = "Conéctate de inmediato con nuestro equipo especialista a través de WhatsApp. Estamos listos para responder tus consultas en tiempo real.",
+  buttonText = "Contactar por WhatsApp",
+} = Astro.props;
+
+const cleanPhone = phone.replace(/[^0-9]/g, '');
+const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+---
+
+<!-- Link para asegurar iconos de Bootstrap -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+<section class="whatsapp-cta-section pos-rel">
+  <div class="scr-shape">
+    <Image src={lineShapeImg} alt="shape" />
+  </div>
+  <div class="container">
+    <div class="whatsapp-cta-wrapper">
+      <div class="whatsapp-cta-card">
+        <div class="whatsapp-card-inner">
+          <div class="cta-left-content">
+            <h2 class="cta-title">{title}</h2>
+            <p class="cta-subtitle">{subtitle}</p>
+          </div>
+
+          <div class="cta-right-action">
+            <a 
+              href={whatsappUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="whatsapp-theme-btn"
+              id="whatsapp-cta-button"
+            >
+              <span class="whatsapp-icon-bg">
+                <i class="bi bi-whatsapp"></i>
+              </span>
+              <div class="btn-text-group">
+                <span class="btn-title">{buttonText}</span>
+                <span class="btn-status">En línea &bull; Respuesta rápida</span>
+              </div>
+              <i class="bi bi-arrow-right btn-arrow-icon"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* -------------------------------------------------------------
+     WHATSAPP CTA SEPARATOR - LIMPIO Y PERFECTAMENTE INTEGRADO
+     ------------------------------------------------------------- */
+  .whatsapp-cta-section {
+    padding: 3.5rem 0 !important;
+    background-color: var(--clr-bg, #EDF5FF) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    clear: both !important;
+  }
+
+  .whatsapp-cta-wrapper {
+    position: relative !important;
+    z-index: 2 !important;
+    width: 100% !important;
+  }
+
+  /* Tarjeta principal limpia sin recortes gráficos */
+  .whatsapp-cta-card {
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    padding: 3rem 3.5rem !important;
+    box-shadow: 0 15px 35px rgba(0, 56, 113, 0.08) !important;
+    /*border: 1px solid rgba(54, 155, 244, 0.2) !important;*/
+    position: relative !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Línea decorativa superior */
+  /* 
+  .whatsapp-cta-card::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 5px !important;
+    background: linear-gradient(90deg, #369BF4 0%, #25D366 50%, #003871 100%) !important;
+  }
+*/
+  .whatsapp-card-inner {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 2.5rem !important;
+    width: 100% !important;
+  }
+
+  .cta-left-content {
+    flex: 1 1 auto !important;
+    max-width: 640px !important;
+    text-align: left !important;
+  }
+
+  /* Badge "Atención Inmediata" */
+  .whatsapp-pill-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #e8f5e9 !important;
+    border: 1px solid #bbf7d0 !important;
+    padding: 6px 16px !important;
+    border-radius: 30px !important;
+    margin-bottom: 1.2rem !important;
+  }
+
+  .whatsapp-pill-badge i {
+    color: #128c7e !important;
+    font-size: 1rem !important;
+  }
+
+  .whatsapp-pill-badge .badge-text {
+    color: #128c7e !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    font-family: var(--font-2, 'Poppins', sans-serif) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  .pulse-dot {
+    width: 8px !important;
+    height: 8px !important;
+    background-color: #25d366 !important;
+    border-radius: 50% !important;
+    display: inline-block !important;
+    box-shadow: 0 0 0 rgba(37, 211, 102, 0.7) !important;
+    animation: pulseGlow 1.8s infinite !important;
+    flex-shrink: 0 !important;
+  }
+
+  @keyframes pulseGlow {
+    0% {
+      box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 8px rgba(37, 211, 102, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+  }
+
+  /* Título y Subtítulo */
+  .cta-title {
+    font-family: var(--font-2, 'Poppins', sans-serif) !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #1b1b1b !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0.75rem !important;
+    letter-spacing: -0.01em !important;
+    text-transform: none !important;
+  }
+
+  .cta-subtitle {
+    font-family: var(--font-1, 'Lato', sans-serif) !important;
+    font-size: 1.05rem !important;
+    color: #555555 !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+  }
+
+  .cta-right-action {
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  /* Botón Principal */
+  .whatsapp-theme-btn {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 14px !important;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
+    color: #ffffff !important;
+    padding: 16px 28px !important;
+    border-radius: 20px !important;
+    text-decoration: none !important;
+    font-family: var(--font-2, 'Poppins', sans-serif) !important;
+    box-shadow: 0 8px 22px rgba(37, 211, 102, 0.4) !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid transparent !important;
+    cursor: pointer !important;
+  }
+
+  .whatsapp-theme-btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 12px 28px rgba(37, 211, 102, 0.55) !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+  }
+
+  .whatsapp-icon-bg {
+    width: 38px !important;
+    height: 38px !important;
+    background: rgba(255, 255, 255, 0.22) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.35rem !important;
+    color: #ffffff !important;
+    flex-shrink: 0 !important;
+  }
+
+  .btn-text-group {
+    display: flex !important;
+    flex-direction: column !important;
+    text-align: left !important;
+  }
+
+  .btn-title {
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    color: #ffffff !important;
+  }
+
+  .btn-status {
+    font-size: 0.78rem !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 400 !important;
+    font-family: var(--font-1, 'Lato', sans-serif) !important;
+    margin-top: 2px !important;
+  }
+
+  .btn-arrow-icon {
+    font-size: 1.4rem !important;
+    color: #ffffff !important;
+    transition: transform 0.3s ease !important;
+    flex-shrink: 0 !important;
+  }
+
+  .whatsapp-theme-btn:hover .btn-arrow-icon {
+    transform: translateX(5px) !important;
+  }
+
+  /* Responsivo */
+  @media (max-width: 991px) {
+    .whatsapp-cta-card {
+      padding: 2.5rem 1.8rem !important;
+    }
+
+    .whatsapp-card-inner {
+      flex-direction: column !important;
+      text-align: center !important;
+      gap: 1.8rem !important;
+    }
+
+    .cta-left-content {
+      max-width: 100% !important;
+      text-align: center !important;
+    }
+
+    .cta-title {
+      font-size: 1.65rem !important;
+    }
+
+    .cta-right-action {
+      width: 100% !important;
+      justify-content: center !important;
+    }
+
+    .whatsapp-theme-btn {
+      width: 100% !important;
+      max-width: 380px !important;
+      justify-content: center !important;
+    }
+  }
+</style>
