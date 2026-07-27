@@ -9,7 +9,8 @@
 <div class="anatomy-section">
     <div class="page">
         <div class="header">
-            <h1>Anatomía del Ticket de Soporte</h1>
+            <h1>Vive la experiencia de KendoDesk</h1>
+            <h6>Anatomía del Ticket de Soporte</h6>
             <p>
                 Cada sección nos ayuda a entender y resolver tu solicitud de forma más rápida y eficiente.
             </p>
@@ -132,6 +133,76 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para emular el envío del ticket -->
+<div id="ticket-modal-overlay" class="ticket-modal-overlay" aria-hidden="true">
+    <div class="ticket-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button type="button" class="modal-close-btn" id="modal-close-x" aria-label="Cerrar modal">
+            <i class="bi bi-x-lg"></i>
+        </button>
+
+        <!-- Estado 1: Loading / Enviando -->
+        <div id="modal-loading-state" class="modal-state">
+            <div class="modal-spinner-container">
+                <div class="modal-spinner"></div>
+                <div class="modal-spinner-icon">
+                    <i class="bi bi-send-fill"></i>
+                </div>
+            </div>
+            <h3 class="modal-loading-title">Procesando Ticket</h3>
+            <p class="modal-loading-sub">Enviando la información al equipo técnico de soporte...</p>
+        </div>
+
+        <!-- Estado 2: Éxito / Ticket Emitido -->
+        <div id="modal-success-state" class="modal-state" style="display: none;">
+            <div class="modal-success-icon">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <h3 id="modal-title" class="modal-success-title">¡Ticket Emitido con Éxito!</h3>
+            <p class="modal-success-sub">Tu solicitud ha sido registrada y asignada al área correspondiente.</p>
+
+            <div class="ticket-summary-card">
+                <div class="ticket-badge-header">
+                    <span class="ticket-id" id="modal-ticket-id">#TK-00000</span>
+                    <span class="ticket-status-badge"><i class="bi bi-clock-history"></i> Abierto</span>
+                </div>
+                <div class="ticket-detail-row">
+                    <span class="detail-label">Título:</span>
+                    <span class="detail-val" id="modal-ticket-title">-</span>
+                </div>
+                <div class="ticket-detail-row">
+                    <span class="detail-label">Categoría:</span>
+                    <span class="detail-val" id="modal-ticket-category">-</span>
+                </div>
+                <div class="ticket-detail-row">
+                    <span class="detail-label">Descripción:</span>
+                    <span class="detail-val description-val" id="modal-ticket-desc">-</span>
+                </div>
+                <div class="ticket-detail-row">
+                    <span class="detail-label">Archivos:</span>
+                    <span class="detail-val" id="modal-ticket-files">Ninguno</span>
+                </div>
+                <div class="ticket-detail-row">
+                    <span class="detail-label">Destino:</span>
+                    <span class="detail-val">Empresa &bull; Soporte TI</span>
+                </div>
+                <div class="ticket-detail-row">
+                    <span class="detail-label">Fecha:</span>
+                    <span class="detail-val" id="modal-ticket-date">-</span>
+                </div>
+            </div>
+
+            <div class="modal-footer-actions">
+                <button type="button" class="btn btn-plain" id="modal-new-ticket-btn">
+                    <i class="bi bi-plus-circle"></i> Registrar otro ticket
+                </button>
+                <button type="button" class="btn btn-primary" id="modal-done-btn">
+                    <i class="bi bi-check2"></i> Entendido
+                </button>
             </div>
         </div>
     </div>

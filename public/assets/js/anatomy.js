@@ -208,6 +208,127 @@ function setupAnatomyComponent() {
     emitirBtn.disabled = !ok;
   }
 
+  // ---------- Modal & Emission Emulation ----------
+  const modalOverlay = document.getElementById('ticket-modal-overlay');
+  const modalLoading = document.getElementById('modal-loading-state');
+  const modalSuccess = document.getElementById('modal-success-state');
+  const modalCloseX = document.getElementById('modal-close-x');
+  const modalDoneBtn = document.getElementById('modal-done-btn');
+  const modalNewTicketBtn = document.getElementById('modal-new-ticket-btn');
+  const cancelarBtn = document.querySelector('.field-block[data-section="acciones"] .btn-plain');
+
+  const modalTicketId = document.getElementById('modal-ticket-id');
+  const modalTicketTitle = document.getElementById('modal-ticket-title');
+  const modalTicketCategory = document.getElementById('modal-ticket-category');
+  const modalTicketDesc = document.getElementById('modal-ticket-desc');
+  const modalTicketFiles = document.getElementById('modal-ticket-files');
+  const modalTicketDate = document.getElementById('modal-ticket-date');
+
+  let modalTimeout = null;
+
+  function resetForm() {
+    if (tituloInput) tituloInput.value = '';
+    if (descTextarea) descTextarea.value = '';
+    if (charcountEl) charcountEl.textContent = '0';
+    if (fileInput) fileInput.value = '';
+    if (fileLabel) fileLabel.textContent = 'Haz clic para seleccionar archivos';
+    path = [];
+    finalized = false;
+    render();
+    updateEmitirState();
+  }
+
+  if (cancelarBtn) {
+    cancelarBtn.addEventListener('click', resetForm);
+  }
+
+  function openModal() {
+    if (!modalOverlay) return;
+
+    // Data population
+    const now = new Date();
+    const formattedDate = now.toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    const randomId = `#TK-${Math.floor(10000 + Math.random() * 90000)}`;
+
+    if (modalTicketId) modalTicketId.textContent = randomId;
+    if (modalTicketTitle) modalTicketTitle.textContent = tituloInput ? tituloInput.value.trim() : '-';
+    if (modalTicketCategory) {
+      modalTicketCategory.textContent = path.length
+        ? path.map(p => p.label).join(' › ')
+        : 'Sin categoría';
+    }
+    if (modalTicketDesc) {
+      const descVal = descTextarea ? descTextarea.value.trim() : '';
+      modalTicketDesc.textContent = descVal ? `"${descVal}"` : 'Sin descripción adicional';
+    }
+    if (modalTicketFiles) {
+      const fileCount = fileInput && fileInput.files ? fileInput.files.length : 0;
+      modalTicketFiles.textContent = fileCount === 0
+        ? 'Sin archivos'
+        : `${fileCount} archivo(s) adjunto(s)`;
+    }
+    if (modalTicketDate) modalTicketDate.textContent = formattedDate;
+
+    // Reset modal view: show loading
+    if (modalLoading) modalLoading.style.display = 'block';
+    if (modalSuccess) modalSuccess.style.display = 'none';
+
+    modalOverlay.classList.add('active');
+    modalOverlay.setAttribute('aria-hidden', 'false');
+
+    // Simulate sending delay
+    if (modalTimeout) clearTimeout(modalTimeout);
+    modalTimeout = setTimeout(() => {
+      if (modalLoading) modalLoading.style.display = 'none';
+      if (modalSuccess) modalSuccess.style.display = 'block';
+    }, 1200);
+  }
+
+  function closeModal() {
+    if (!modalOverlay) return;
+    modalOverlay.classList.remove('active');
+    modalOverlay.setAttribute('aria-hidden', 'true');
+    if (modalTimeout) clearTimeout(modalTimeout);
+  }
+
+  if (emitirBtn) {
+    emitirBtn.addEventListener('click', () => {
+      if (!emitirBtn.disabled) {
+        openModal();
+      }
+    });
+  }
+
+  if (modalCloseX) modalCloseX.addEventListener('click', closeModal);
+  if (modalDoneBtn) modalDoneBtn.addEventListener('click', closeModal);
+
+  if (modalNewTicketBtn) {
+    modalNewTicketBtn.addEventListener('click', () => {
+      closeModal();
+      resetForm();
+    });
+  }
+
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        closeModal();
+      }
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalOverlay && modalOverlay.classList.contains('active')) {
+      closeModal();
+    }
+  });
+
   render();
 }
 
