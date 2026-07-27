@@ -14,10 +14,7 @@ import Contact from "../components/Contact.astro";
   <PageHero
     title="Planes y Precios"
     subtitle="Elige el plan que mejor se adapte a las necesidades de tu empresa. Sin compromisos, cancela cuando quieras."
-    breadcrumbs={[
-      { label: "Inicio", href: "/" },
-      { label: "Precios" },
-    ]}
+    breadcrumbs={[{ label: "Inicio", href: "/" }, { label: "Precios" }]}
   />
 
   <Pricing
@@ -66,7 +63,7 @@ import Contact from "../components/Contact.astro";
           "Dashboards Ejecutivos (Data Studio)",
           "SSO y Seguridad Avanzada",
           "SLA de Respuesta Crítico",
-          "Gestión de Múltiples Marcas"
+          "Gestión de Múltiples Marcas",
         ],
         ctaText: "Cotizar",
         ctaLink: "#contact",
@@ -82,7 +79,8 @@ import Contact from "../components/Contact.astro";
           <div class="site-title text-center">
             <h2>Comparación de Planes</h2>
             <p class="mb-0">
-              Compara las características de cada plan para encontrar el que mejor se adapte a tu equipo.
+              Compara las características de cada plan para encontrar el que
+              mejor se adapte a tu equipo.
             </p>
           </div>
         </div>
@@ -92,9 +90,9 @@ import Contact from "../components/Contact.astro";
           <thead>
             <tr>
               <th class="feature-col">Característica</th>
-              <th>Básico</th>
-              <th class="highlight-col">Estándar</th>
-              <th>Premium</th>
+              <th>Essential</th>
+              <th class="highlight-col">Business</th>
+              <th>Enterprise </th>
             </tr>
           </thead>
           <tbody>
@@ -110,58 +108,109 @@ import Contact from "../components/Contact.astro";
               <td class="highlight-col">Ilimitados</td>
               <td>Ilimitados</td>
             </tr>
+
             <tr>
-              <td class="feature-col">Departamentos</td>
-              <td>1</td>
-              <td class="highlight-col">5</td>
-              <td>Ilimitados</td>
-            </tr>
-            <tr>
-              <td class="feature-col">Base de conocimiento</td>
+              <td class="feature-col">Portal de Autoservicio</td>
               <td>Básica</td>
               <td class="highlight-col">Completa</td>
-              <td>Completa + IA</td>
+              <td>Completa</td>
             </tr>
             <tr>
-              <td class="feature-col">Reportes y analítica</td>
-              <td>Estándar</td>
-              <td class="highlight-col">Avanzados</td>
-              <td>Avanzados + IA</td>
+              <td class="feature-col">Gestión de Tickets por SLA</td>
+              <td><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
             </tr>
             <tr>
-              <td class="feature-col">Soporte</td>
-              <td>Correo</td>
-              <td class="highlight-col">24/7 Chat + Correo</td>
-              <td>24/7 Prioritario</td>
+              <td class="feature-col"
+                >Asignación automática de tickets al agente disponible.
+              </td>
+              <td><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
             </tr>
             <tr>
-              <td class="feature-col">SLA</td>
-              <td>Básico</td>
-              <td class="highlight-col">Personalizado</td>
-              <td>Avanzado</td>
+              <td class="feature-col">Métricas Básicas (CSAT) </td>
+              <td><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
             </tr>
             <tr>
-              <td class="feature-col">Automatización</td>
+              <td class="feature-col">Multi-canal (Correo + Web) </td>
+              <td><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-col">Soporte 24/7 (Chat) </td>
+              <td><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-col">Automatización Avanzada (Triggers)</td>
+              <td><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-col">Gestión de Activos (CMDB) </td>
               <td><i class="ti-close text-muted"></i></td>
-              <td class="highlight-col"><i class="ti-check cl"></i></td>
+
+              <td><i class="ti-check cl"></i></td>
               <td><i class="ti-check cl"></i></td>
             </tr>
             <tr>
-              <td class="feature-col">Integraciones API</td>
+              <td class="feature-col">Dashboards Personalizables</td>
               <td><i class="ti-close text-muted"></i></td>
-              <td class="highlight-col"><i class="ti-close text-muted"></i></td>
+
+              <td><i class="ti-check cl"></i></td>
               <td><i class="ti-check cl"></i></td>
             </tr>
             <tr>
-              <td class="feature-col">IA integrada</td>
+              <td class="feature-col">Horas de Consultoría (2h/mes) </td>
               <td><i class="ti-close text-muted"></i></td>
-              <td class="highlight-col"><i class="ti-close text-muted"></i></td>
+
+              <td><i class="ti-check cl"></i></td>
               <td><i class="ti-check cl"></i></td>
             </tr>
             <tr>
-              <td class="feature-col">App móvil</td>
+              <td class="feature-col">Reportes Avanzados (Exportables </td>
+              <td><i class="ti-close text-muted"></i></td>
+
               <td><i class="ti-check cl"></i></td>
-              <td class="highlight-col"><i class="ti-check cl"></i></td>
+              <td><i class="ti-check cl"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-col">Desarrollo de Módulos a Medida </td>
+              <td><i class="ti-close text-muted"></i></td>
+              <td><i class="ti-close text-muted"></i></td>
+              <td><i class="ti-check cl"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-col">Integraciones a la Medida </td>
+              <td><i class="ti-close text-muted"></i></td>
+              <td><i class="ti-close text-muted"></i></td>
+              <td><i class="ti-check cl"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-col">Dashboards Ejecutivos (Data Studio) </td>
+              <td><i class="ti-close text-muted"></i></td>
+              <td><i class="ti-close text-muted"></i></td>
+              <td><i class="ti-check cl"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-col"
+                >Bolsa de Horas de Desarrollo (100h incluidas)
+              </td>
+              <td><i class="ti-close text-muted"></i></td>
+              <td><i class="ti-close text-muted"></i></td>
+              <td><i class="ti-check cl"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-col">SLA de Respuesta Crítico </td>
+              <td><i class="ti-close text-muted"></i></td>
+              <td><i class="ti-close text-muted"></i></td>
               <td><i class="ti-check cl"></i></td>
             </tr>
           </tbody>

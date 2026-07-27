@@ -16,7 +16,7 @@ const {
   title = "Conoce KenDesk en Acción",
   subtitle = "DEMOSTRACIÓN EN VIDEO",
   description = "Descubre cómo nuestra plataforma agiliza la gestión de incidencias, automatiza asignaciones y mejora los tiempos de respuesta de tu equipo técnico.",
-  videoSrc = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+  videoSrc = "https://youtu.be/tUtpk_xl9ns?si=MXoVTqwaD9mR3lpf",
   poster = defaultPoster,
   features = [
     "Gestión centralizada de incidencias",
@@ -24,6 +24,24 @@ const {
     "Métricas y reportes en tiempo real",
   ],
 } = Astro.props;
+
+// Function to extract YouTube Video ID and return YouTube embed URL
+function getYouTubeInfo(url: string) {
+  if (!url) return { isYouTube: false, embedUrl: null, videoId: null };
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  if (match && match[2].length === 11) {
+    const videoId = match[2];
+    return {
+      isYouTube: true,
+      videoId,
+      embedUrl: `https://www.youtube.com/embed/${videoId}`
+    };
+  }
+  return { isYouTube: false, embedUrl: null, videoId: null };
+}
+
+const { isYouTube, embedUrl } = getYouTubeInfo(videoSrc);
 
 let posterUrl: string = "";
 if (typeof poster === "string") {
@@ -51,25 +69,53 @@ if (typeof poster === "string") {
       <div class="col-xl-10">
         <div class="video-wrapper pos-rel">
           <div class="video-container">
-            <video
-              id="kendo-demo-video"
-              controls
-              preload="metadata"
-              poster={posterUrl}
-              playsinline
-              class="video-element"
-            >
-              <source src={videoSrc} type="video/mp4" />
-              Tu navegador no soporta la reproducción de video HTML5.
-            </video>
+            {
+              isYouTube ? (
+                <div class="youtube-player-wrapper" id="youtube-player-wrapper" data-embed-url={embedUrl}>
+                  <iframe
+                    id="kendo-youtube-iframe"
+                    class="video-element"
+                    src={`${embedUrl}?autoplay=0&rel=0`}
+                    title={title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                  ></iframe>
 
-            <button
-              id="video-play-btn"
-              class="video-overlay-btn"
-              aria-label="Reproducir video"
-            >
-              <span class="play-icon"><i class="icofont-ui-play"></i></span>
-            </button>
+                  <div class="poster-overlay" id="poster-overlay">
+                    {posterUrl && <img src={posterUrl} alt={title} class="poster-img" />}
+                    <button
+                      id="video-play-btn"
+                      class="video-overlay-btn"
+                      aria-label="Reproducir video"
+                    >
+                      <span class="play-icon"><i class="icofont-ui-play"></i></span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <video
+                    id="kendo-demo-video"
+                    controls
+                    preload="metadata"
+                    poster={posterUrl}
+                    playsinline
+                    class="video-element"
+                  >
+                    <source src={videoSrc} type="video/mp4" />
+                    Tu navegador no soporta la reproducción de video HTML5.
+                  </video>
+
+                  <button
+                    id="video-play-btn"
+                    class="video-overlay-btn"
+                    aria-label="Reproducir video"
+                  >
+                    <span class="play-icon"><i class="icofont-ui-play"></i></span>
+                  </button>
+                </>
+              )
+            }
           </div>
         </div>
 
@@ -126,12 +172,39 @@ if (typeof poster === "string") {
     justify-content: center;
   }
 
+  .youtube-player-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .poster-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+  }
+
+  .poster-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   .video-element {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     border-radius: 12px;
+    border: none;
   }
 
   .video-overlay-btn {
@@ -209,12 +282,25 @@ if (typeof poster === "string") {
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const video = document.getElementById(
-      "kendo-demo-video",
-    ) as HTMLVideoElement | null;
+    // YouTube handling
+    const youtubeWrapper = document.getElementById("youtube-player-wrapper");
+    const iframe = document.getElementById("kendo-youtube-iframe") as HTMLIFrameElement | null;
+    const posterOverlay = document.getElementById("poster-overlay");
     const playBtn = document.getElementById("video-play-btn");
 
-    if (video && playBtn) {
+    if (youtubeWrapper && iframe && posterOverlay && playBtn) {
+      const embedUrl = youtubeWrapper.getAttribute("data-embed-url");
+      playBtn.addEventListener("click", () => {
+        if (embedUrl) {
+          iframe.src = `${embedUrl}?autoplay=1&rel=0`;
+          posterOverlay.style.display = "none";
+        }
+      });
+    }
+
+    // HTML5 Video handling
+    const video = document.getElementById("kendo-demo-video") as HTMLVideoElement | null;
+    if (video && playBtn && !youtubeWrapper) {
       playBtn.addEventListener("click", () => {
         if (video.paused) {
           video.play();
@@ -239,3 +325,4 @@ if (typeof poster === "string") {
     }
   });
 </script>
+
