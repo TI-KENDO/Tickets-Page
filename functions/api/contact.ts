@@ -21,11 +21,26 @@ function jsonResponse(body: unknown, status: number) {
   });
 }
 
+async function parseBody(request: Request): Promise<ContactPayload> {
+  const contentType = request.headers.get("content-type") ?? "";
+
+  if (contentType.includes("application/json")) {
+    return (await request.json()) as ContactPayload;
+  }
+
+  if (contentType.includes("multipart/form-data") || contentType.includes("application/x-www-form-urlencoded")) {
+    const formData = await request.formData();
+    return Object.fromEntries(formData.entries()) as unknown as ContactPayload;
+  }
+
+  throw new Error(`Content-Type no soportado: ${contentType}`);
+}
+
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   try {
     let data: ContactPayload;
     try {
-      data = await request.json();
+      data = await parseBody(request);
     } catch {
       return jsonResponse({ ok: false, error: "Cuerpo inválido." }, 400);
     }
