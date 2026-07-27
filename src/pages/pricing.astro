@@ -9,7 +9,7 @@ import Contact from "../components/Contact.astro";
 <Layout
   title="Precios y Planes | KendoDesk - Plataforma de Helpdesk"
   description="Conoce los planes y precios de KendoDesk. Elige el plan ideal para tu empresa y comienza a gestionar tus tickets de soporte de forma eficiente."
-  canonical="https://kendodesk.com/pricing"
+  canonical="https://kendesk.com/pricing"
 >
   <PageHero
     title="Planes y Precios"
@@ -21,59 +21,55 @@ import Contact from "../components/Contact.astro";
   />
 
   <Pricing
-    title="Nuestros Planes"
+    title="Nuestras Versiones"
     description="Ofrecemos planes flexibles diseñados para empresas de todos los tamaños. Cada plan incluye acceso completo a la plataforma con soporte dedicado."
     plans={[
       {
-        name: "Básico",
+        name: "Essential",
         price: 130,
         currency: "$",
         period: "por mes",
         features: [
-          "Hasta 5 agentes",
-          "Gestión de tickets ilimitada",
-          "Soporte por correo electrónico",
-          "Base de conocimiento básica",
-          "Reportes estándar",
-          "1 departamento",
-          "SLA básico",
+          "Portal de Autoservicio",
+          "Gestión de Tickets por SLA",
+          "Asignación automática de tickets al agente disponible",
+          "Métricas Básicas (CSAT)",
+          "Multi-canal (Correo + Web)",
+          "Soporte 24/7 (Chat)",
         ],
-        ctaText: "Comenzar",
-        ctaLink: "/contact",
+        ctaText: "Cotizar",
+        ctaLink: "#contact",
       },
       {
-        name: "Estándar",
+        name: "Business",
         price: 150,
         currency: "$",
         period: "por mes",
         features: [
-          "Hasta 15 agentes",
-          "Gestión de tickets ilimitada",
-          "Soporte 24/7 por chat y correo",
-          "Base de conocimiento completa",
-          "Reportes avanzados y analítica",
-          "5 departamentos",
-          "SLA personalizado",
+          "Automatización Avanzada (Triggers)",
+          "Gestión de Activos (CMDB)",
+          "Dashboards Personalizables",
+          "Horas de Consultoría (2h/mes)",
+          "Reportes Avanzados (Exportables)",
         ],
-        ctaText: "Comenzar",
-        ctaLink: "/contact",
+        ctaText: "Cotizar",
+        ctaLink: "#contact",
       },
       {
-        name: "Premium",
+        name: "Enterprise",
         price: 180,
         currency: "$",
         period: "por mes",
         features: [
-          "Agentes ilimitados",
-          "Gestión de tickets ilimitada",
-          "Soporte 24/7 prioritario",
-          "IA para clasificación automática",
-          "Integraciones API (CRM/ERP)",
-          "Departamentos ilimitados",
-          "SLA avanzado con automatización",
+          "Desarrollo de Módulos a Medida",
+          "Integraciones a la Medida",
+          "Dashboards Ejecutivos (Data Studio)",
+          "SSO y Seguridad Avanzada",
+          "SLA de Respuesta Crítico",
+          "Gestión de Múltiples Marcas"
         ],
-        ctaText: "Comenzar",
-        ctaLink: "/contact",
+        ctaText: "Cotizar",
+        ctaLink: "#contact",
       },
     ]}
   />
@@ -175,7 +171,7 @@ import Contact from "../components/Contact.astro";
   </section>
 
   <Faqs
-    title="Preguntas sobre Precios"
+    title="Preguntas sobre nuestras versiones"
     description="Resolvemos tus dudas más comunes sobre nuestros planes y facturación."
     faqs={[
       {
@@ -201,7 +197,7 @@ import Contact from "../components/Contact.astro";
       {
         question: "¿Qué pasa si excedo el límite de agentes de mi plan?",
         answer:
-          "Te notificaremos cuando estés cerca del límite. Podrás agregar agentes adicionales o actualizar tu plan fácilmente sin interrupciones en el servicio.",
+          "No hay limites estrictos, pero si superas el número de agentes permitido en tu plan, se te cobrará un cargo adicional por cada agente extra. Te recomendamos actualizar tu plan para evitar cargos adicionales.",
       },
       {
         question: "¿Puedo cancelar mi suscripción en cualquier momento?",

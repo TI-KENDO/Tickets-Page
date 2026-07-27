@@ -9,7 +9,6 @@ export interface Props {
 
 const {
   title = "¿Buscas agilizar el soporte y la atención de tus usuarios?",
-  address = "...",
   phone = "(55) 1328-7995",
   email = "ventas@tikendo.com.mx",
   formAction = "/assets/mail/contact.php",
@@ -17,7 +16,7 @@ const {
 ---
 
 <!-- Contact Section -->
-<div class="contact-us pos-rel de-pt">
+<div id="contact" class="contact-us pos-rel de-pt">
   <div class="con-shape">
     <img src="/assets/img/shape/line-shape-2.png" alt="thumb" />
   </div>
@@ -29,15 +28,7 @@ const {
             <div class="contact-bottom">
               <h2 class="site-heading mb-40">{title}</h2>
               <div class="addr-box">
-                <div class="addr-box-single">
-                  <div class="addr-icon">
-                    <i class="flaticon-location"></i>
-                  </div>
-                  <div class="addr-desc">
-                    <h5>Ubicación de las oficinas</h5>
-                    <p class="mb-0">{address}</p>
-                  </div>
-                </div>
+                
                 <div class="addr-box-single">
                   <div class="addr-icon">
                     <i class="flaticon-call"></i>

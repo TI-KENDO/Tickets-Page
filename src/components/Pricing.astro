@@ -1,12 +1,15 @@
 ---
 export interface PricingPlan {
   name: string;
-  price: number;
+  price?: number;
   currency?: string;
   period?: string;
+  description?: string;
   features: string[];
   ctaText?: string;
   ctaLink?: string;
+  isPopular?: boolean;
+  badgeText?: string;
 }
 
 export interface Props {
@@ -16,105 +19,354 @@ export interface Props {
 }
 
 const {
-  title = "Pricing Table",
-  description = `Outlived no dwelling denoting in peculiar as he believed. Behaviour excellent middleton
-    be as it curiosity departure ourselves very extreme future.`,
+  title = "Versiones de KENDESK",
+  description = `Software de mesa de ayuda y gestión de tickets. Elige tu plan de mesa de ayuda KenDesk y empieza a optimizar tu soporte hoy.`,
   plans = [
     {
-      name: "Basic",
+      name: "Essential",
       price: 130,
       currency: "$",
-      period: "per month",
+      description: "La potencia de un Help Desk profesional, sin complicaciones.",
       features: [
-        "Business Analyzing",
-        "24/7 Tech Suport",
-        "Operational Excellence",
-        "Knowledge Management",
-        "Business Idea Ready",
-        "10 Database",
-        "Customer Support",
+        "Portal de Autoservicio",
+        "Gestión de Tickets por SLA",
+        "Asignación automática de tickets al agente disponible",
+        "Métricas Básicas (CSAT)",
+        "Multi-canal (Correo + Web)",
+        "Soporte 24/7 (Chat)"
       ],
-      ctaText: "Purchase",
-      ctaLink: "/checkout",
+      ctaText: "Cotizar",
+      ctaLink: "#contact",
     },
     {
-      name: "Standard",
+      name: "Business",
       price: 150,
       currency: "$",
-      period: "per month",
+      isPopular: true,
+      badgeText: "MÁS POPULAR",
+      description: "Automatiza tu soporte y conéctalo con tu ecosistema tecnológico.",
       features: [
-        "Full Business Analyzing",
-        "24/7 Tech Suport",
-        "Next Generation Accounting",
-        "Online Staff Training Sessions",
-        "Business Idea Ready",
-        "20 Database",
-        "Customer Support",
+        "Automatización Avanzada (Triggers)",
+        "Gestión de Activos (CMDB)",
+        "Dashboards Personalizables",
+        "Horas de Consultoría (2h/mes)",
+        "Reportes Avanzados (Exportables)",
       ],
-      ctaText: "Purchase",
-      ctaLink: "/checkout",
+      ctaText: "Cotizar",
+      ctaLink: "#contact",
     },
     {
-      name: "Premium",
+      name: "Enterprise",
       price: 180,
       currency: "$",
-      period: "per month",
+      description: "El sistema crece contigo. Desarrollamos lo que tu negocio necesita.",
       features: [
-        "Digital Transformation",
-        "24/7 Tech Suport",
-        "Supply Chain Optimization",
-        "E-mail support",
-        "Business Idea Ready",
-        "Unlimited Database",
-        "Customer Support",
+        "Desarrollo de Módulos a Medida",
+        "Integraciones a la Medida",
+        "Dashboards Ejecutivos (Data Studio)",
+        "Bolsa de Horas de Desarrollo (100h incluidas)",
+        "SSO y Seguridad Avanzada",
+        "SLA de Respuesta Crítico",
+        "Gestión de Múltiples Marcas",
       ],
-      ctaText: "Purchase",
-      ctaLink: "/checkout",
+      ctaText: "Cotizar",
+      ctaLink: "#contact",
     },
   ],
 } = Astro.props;
 ---
 
 <!-- Pricing Section -->
-<section id="pricing" class="pricing-area bg pos-rel de-pt">
+<section id="pricing" class="pricing-area bg pos-rel de-pt de-pb">
   <div class="container">
     <div class="row">
       <div class="col-xl-8 offset-xl-2">
-        <div class="site-title text-center">
+        <div class="site-title text-center mb-60">
           <h2>{title}</h2>
           <p class="mb-0">{description}</p>
         </div>
       </div>
     </div>
-    <div class="pricing-wrapper grid-3">
+    <div class="pricing-grid">
       {
-        plans.map((plan) => (
-          <div class="price-box">
-            <h4 class="price-ribon">{plan.name}</h4>
-            <div class="price-head">
-              <div class="price-head-content">
-                <h3>
-                  <span>{plan.currency ?? "$"}</span>
-                  {plan.price}
-                </h3>
-                <h6>{plan.period ?? "per month"}</h6>
+        plans.map((plan, index) => {
+          const isFeatured = plan.isPopular ?? index === 1;
+          const badgeText = plan.badgeText ?? (isFeatured ? "MÁS POPULAR" : undefined);
+          const descText = plan.description ?? (plan.period && plan.period.length >= 20 ? plan.period : undefined);
+          const periodText = plan.period && plan.period.length < 20 ? plan.period : "mes";
+
+          return (
+            <div class={`pricing-card ${isFeatured ? "featured" : ""}`}>
+              {badgeText && (
+                <div class="pricing-badge">
+                  <span>{badgeText}</span>
+                </div>
+              )}
+
+              <div class="card-header-custom">
+                <h3 class="plan-title">{plan.name}</h3>
+
+                
+
+                {descText && <p class="plan-description">{descText}</p>}
+              </div>
+
+              <div class="card-body-custom">
+                <ul class="features-list">
+                  {plan.features.map((feature) => (
+                    <li>
+                      <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="card-footer-custom">
+                <a href={plan.ctaLink ?? "#contact"} class={`btn-cta ${isFeatured ? "btn-featured" : ""}`}>
+                  {plan.ctaText ?? "Cotizar"}
+                  <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </a>
               </div>
             </div>
-            <div class="price-desc">
-              <ul>
-                {plan.features.map((feature) => (
-                  <li>{feature}</li>
-                ))}
-              </ul>
-            </div>
-            <div class="price-bottom">
-              <a href={plan.ctaLink ?? "/checkout"} class="btn-4" target="_blank">
-                {plan.ctaText ?? "Purchase"}
-              </a>
-            </div>
-          </div>
-        ))
+          );
+        })
       }
     </div>
   </div>
 </section>
+
+<style>
+  .pricing-area {
+    padding-bottom: 90px;
+  }
+
+  .mb-60 {
+    margin-bottom: 50px;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    align-items: stretch;
+    margin-top: 20px;
+  }
+
+  /* Pricing Card Base */
+  .pricing-card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px 32px 32px 32px;
+    border: 1px solid rgba(0, 56, 113, 0.08);
+    box-shadow: 0 10px 30px -5px rgba(0, 56, 113, 0.06);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .pricing-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px -10px rgba(0, 56, 113, 0.15);
+    border-color: rgba(10, 93, 173, 0.2);
+  }
+
+  /* Featured Card Styles */
+  .pricing-card.featured {
+    background: #ffffff;
+    border: 2px solid #0a5dad;
+    box-shadow: 0 20px 45px -10px rgba(10, 93, 173, 0.2);
+    transform: scale(1.03);
+  }
+
+  .pricing-card.featured:hover {
+    transform: scale(1.03) translateY(-8px);
+    box-shadow: 0 25px 50px -10px rgba(10, 93, 173, 0.28);
+  }
+
+  /* Popular Badge */
+  .pricing-badge {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #003871 0%, #0a5dad 100%);
+    color: #ffffff;
+    padding: 6px 20px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 14px rgba(10, 93, 173, 0.35);
+    white-space: nowrap;
+  }
+
+  /* Card Header */
+  .card-header-custom {
+    text-align: center;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    margin-bottom: 24px;
+  }
+
+  .plan-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #003871;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .plan-price-wrap {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 12px;
+    color: #003871;
+  }
+
+  .price-currency {
+    font-size: 1.6rem;
+    font-weight: 600;
+    align-self: flex-start;
+    margin-top: 6px;
+  }
+
+  .price-amount {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #003871 0%, #0a5dad 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .price-period {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+  }
+
+  .plan-description {
+    font-size: 0.92rem;
+    color: #555;
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  /* Card Body & Features */
+  .card-body-custom {
+    flex-grow: 1;
+    margin-bottom: 28px;
+  }
+
+  .features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .features-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: #444;
+    line-height: 1.4;
+    text-align: left;
+  }
+
+  .check-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: #0a5dad;
+    margin-top: 2px;
+  }
+
+  /* Card Footer & CTA */
+  .card-footer-custom {
+    margin-top: auto;
+  }
+
+  .btn-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px 24px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid #0a5dad;
+    color: #0a5dad;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .btn-cta:hover {
+    background: #0a5dad;
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(10, 93, 173, 0.25);
+    transform: translateY(-2px);
+  }
+
+  .btn-cta.btn-featured {
+    background: linear-gradient(135deg, #003871 0%, #0a5dad 100%);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 8px 22px rgba(10, 93, 173, 0.35);
+  }
+
+  .btn-cta.btn-featured:hover {
+    background: linear-gradient(135deg, #002752 0%, #004b93 100%);
+    box-shadow: 0 12px 28px rgba(10, 93, 173, 0.45);
+    transform: translateY(-2px);
+  }
+
+  .arrow-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+
+  .btn-cta:hover .arrow-icon {
+    transform: translateX(4px);
+  }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 991px) {
+    .pricing-grid {
+      grid-template-columns: repeat(1, 1fr);
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      gap: 40px;
+    }
+
+    .pricing-card.featured {
+      transform: none;
+    }
+
+    .pricing-card.featured:hover {
+      transform: translateY(-8px);
+    }
+  }
+</style>
+
