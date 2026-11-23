@@ -1,3 +1,5 @@
+import { formatPhoneMX, normalizePhoneMX, PHONE_MX_ERROR } from "../../src/lib/phone-mx";
+
 interface Env {
   RESEND_API_KEY: string;
   CONTACT_TO_EMAIL?: string;
@@ -48,7 +50,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
     const fname = (data.fname ?? "").trim();
     const email = (data.email ?? "").trim();
-    const phone = (data.phone ?? "").trim();
+    const rawPhone = (data.phone ?? "").trim();
     const company = (data.company ?? "").trim();
     const subject = (data.subject ?? "").trim();
     const message = (data.message ?? "").trim();
@@ -58,6 +60,15 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     }
     if (!EMAIL_RE.test(email)) {
       return jsonResponse({ ok: false, error: "Correo electrónico inválido." }, 400);
+    }
+
+    let phone = "";
+    if (rawPhone) {
+      const national = normalizePhoneMX(rawPhone);
+      if (!national) {
+        return jsonResponse({ ok: false, error: PHONE_MX_ERROR }, 400);
+      }
+      phone = formatPhoneMX(national);
     }
 
     const apiKey = (env.RESEND_API_KEY ?? "").trim();
