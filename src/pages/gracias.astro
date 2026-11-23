@@ -1,0 +1,76 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+---
+
+<Layout
+  title="¡Gracias por contactarnos! | KenDesk"
+  description="Recibimos tu mensaje. Nuestro equipo lo atenderá a la brevedad."
+  canonical="https://kendesk.tikendo.com.mx/gracias/"
+  noindex
+>
+  <PageHero
+    title="¡Gracias por contactarnos!"
+    subtitle="Recibimos tu mensaje correctamente."
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Contacto", href: "/contact/" },
+      { label: "Gracias" },
+    ]}
+  />
+
+  <section class="thanks de-pt">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 text-center">
+          <div class="thanks-icon" aria-hidden="true">
+            <i class="fas fa-check"></i>
+          </div>
+          <h2 class="site-heading mb-20">Tu mensaje será atendido</h2>
+          <p class="thanks-text">
+            Un integrante de nuestro equipo revisará tu solicitud y se pondrá en contacto
+            contigo a la brevedad, por correo electrónico o por teléfono.
+          </p>
+          <p class="thanks-text">
+            Si tu consulta es urgente, llámanos al <strong>(55) 1328-7995</strong>.
+          </p>
+          <div class="thanks-actions">
+            <a href="/" class="btn-4">
+              Volver al inicio
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .thanks {
+    padding-bottom: 10rem;
+  }
+
+  .thanks-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 8rem;
+    height: 8rem;
+    margin-bottom: 2.4rem;
+    border-radius: 50%;
+    background: #e6f2fe;
+    color: #0a5dad;
+    font-size: 3.2rem;
+  }
+
+  .thanks-text {
+    font-size: 1.7rem;
+    line-height: 1.7;
+    margin-bottom: 1.6rem;
+  }
+
+  .thanks-actions {
+    margin-top: 3.2rem;
+  }
+</style>

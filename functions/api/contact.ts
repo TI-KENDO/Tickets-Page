@@ -8,6 +8,7 @@ interface ContactPayload {
   fname?: string;
   email?: string;
   phone?: string;
+  company?: string;
   subject?: string;
   message?: string;
 }
@@ -48,6 +49,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     const fname = (data.fname ?? "").trim();
     const email = (data.email ?? "").trim();
     const phone = (data.phone ?? "").trim();
+    const company = (data.company ?? "").trim();
     const subject = (data.subject ?? "").trim();
     const message = (data.message ?? "").trim();
 
@@ -71,11 +73,11 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       `Nombre: ${fname}`,
       `Correo: ${email}`,
       phone && `Teléfono: ${phone}`,
+      company && `Empresa: ${company}`,
       subject && `Asunto: ${subject}`,
-      "",
-      message,
     ]
       .filter(Boolean)
+      .concat("", message)
       .join("\n");
 
     let resendResponse: Response;
@@ -90,7 +92,9 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
           from,
           to,
           reply_to: email,
-          subject: subject ? `Contacto web: ${subject}` : `Nuevo mensaje de contacto de ${fname}`,
+          subject: subject
+            ? `Contacto web: ${subject}`
+            : `Nuevo mensaje de contacto de ${fname}${company ? ` (${company})` : ""}`,
           text,
         }),
       });
@@ -103,6 +107,11 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       const errorBody = await resendResponse.text();
       console.error("Resend error:", resendResponse.status, errorBody);
       return jsonResponse({ ok: false, error: "No se pudo enviar el mensaje. Intenta de nuevo más tarde." }, 500);
+    }
+
+    // Envío clásico del formulario (sin JavaScript): redirigir a la página de agradecimiento.
+    if (!(request.headers.get("content-type") ?? "").includes("application/json")) {
+      return Response.redirect(new URL("/gracias/", request.url).toString(), 303);
     }
 
     return jsonResponse({ ok: true }, 200);
