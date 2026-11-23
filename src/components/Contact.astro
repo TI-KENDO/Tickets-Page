@@ -89,6 +89,18 @@ const {
                   <span class="alert alert-error"></span>
                 </div>
               </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control input-style-2"
+                    name="company"
+                    placeholder="Nombre de la empresa"
+                    autocomplete="organization"
+                  />
+                  <span class="alert alert-error"></span>
+                </div>
+              </div>
               <div class="col-md-12">
                 <div class="form-group">
                   <input
@@ -125,6 +137,8 @@ const {
 </div>
 
 <script>
+  import { navigate } from "astro:transitions/client";
+
   document.querySelectorAll<HTMLFormElement>(".contact-form").forEach((form) => {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -147,12 +161,12 @@ const {
           body: JSON.stringify(payload),
         });
 
-        const result = await response.json();
+        const result = (await response.json()) as { ok?: boolean; error?: string };
 
         if (response.ok && result.ok) {
-          messageBox.textContent = "¡Gracias! Tu mensaje fue enviado correctamente.";
-          messageBox.className = "alert-msg alert-success";
           form.reset();
+          await navigate("/gracias/");
+          return;
         } else {
           messageBox.textContent = result.error || "No se pudo enviar el mensaje. Intenta de nuevo.";
           messageBox.className = "alert-msg alert-error";
