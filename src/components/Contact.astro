@@ -81,10 +81,13 @@ const {
               <div class="col-md-6">
                 <div class="form-group">
                   <input
-                    type="text"
+                    type="tel"
+                    inputmode="tel"
+                    autocomplete="tel"
+                    maxlength="20"
                     class="form-control input-style-2"
                     name="phone"
-                    placeholder="Numero telefonico"
+                    placeholder="Teléfono (10 dígitos)"
                   />
                   <span class="alert alert-error"></span>
                 </div>
@@ -138,8 +141,28 @@ const {
 
 <script>
   import { navigate } from "astro:transitions/client";
+  import { normalizePhoneMX, PHONE_MX_ERROR } from "../lib/phone-mx";
 
   document.querySelectorAll<HTMLFormElement>(".contact-form").forEach((form) => {
+    // Teléfono opcional: si se escribe algo, debe ser un número de México válido.
+    // setCustomValidity hace que el navegador bloquee el envío y muestre el mensaje.
+    const phoneInput = form.querySelector<HTMLInputElement>('input[name="phone"]');
+    const validatePhone = () => {
+      if (!phoneInput) return;
+      const value = phoneInput.value.trim();
+      phoneInput.setCustomValidity(value && !normalizePhoneMX(value) ? PHONE_MX_ERROR : "");
+    };
+    phoneInput?.addEventListener("input", () => {
+      // Solo permite dígitos, espacios, +, (, ), - y .
+      const cleaned = phoneInput.value.replace(/[^\d\s()+.-]/g, "");
+      if (cleaned !== phoneInput.value) phoneInput.value = cleaned;
+      validatePhone();
+    });
+    phoneInput?.addEventListener("blur", () => {
+      validatePhone();
+      if (phoneInput.value.trim()) phoneInput.reportValidity();
+    });
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
