@@ -1,4 +1,10 @@
 import { formatPhoneMX, normalizePhoneMX, PHONE_MX_ERROR } from "../../src/lib/phone-mx";
+import {
+  EMAIL_EMPRESARIAL_ERROR,
+  EMAIL_INVALIDO_ERROR,
+  isBusinessEmail,
+  isValidEmail,
+} from "../../src/lib/email-empresarial";
 
 interface Env {
   RESEND_API_KEY: string;
@@ -14,8 +20,6 @@ interface ContactPayload {
   subject?: string;
   message?: string;
 }
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function jsonResponse(body: unknown, status: number) {
   return new Response(JSON.stringify(body), {
@@ -55,21 +59,21 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     const subject = (data.subject ?? "").trim();
     const message = (data.message ?? "").trim();
 
-    if (!fname || !email || !message) {
-      return jsonResponse({ ok: false, error: "Nombre, correo y mensaje son obligatorios." }, 400);
+    if (!fname || !email || !rawPhone || !company || !subject || !message) {
+      return jsonResponse({ ok: false, error: "Todos los campos son obligatorios." }, 400);
     }
-    if (!EMAIL_RE.test(email)) {
-      return jsonResponse({ ok: false, error: "Correo electrónico inválido." }, 400);
+    if (!isValidEmail(email)) {
+      return jsonResponse({ ok: false, error: EMAIL_INVALIDO_ERROR }, 400);
+    }
+    if (!isBusinessEmail(email)) {
+      return jsonResponse({ ok: false, error: EMAIL_EMPRESARIAL_ERROR }, 400);
     }
 
-    let phone = "";
-    if (rawPhone) {
-      const national = normalizePhoneMX(rawPhone);
-      if (!national) {
-        return jsonResponse({ ok: false, error: PHONE_MX_ERROR }, 400);
-      }
-      phone = formatPhoneMX(national);
+    const national = normalizePhoneMX(rawPhone);
+    if (!national) {
+      return jsonResponse({ ok: false, error: PHONE_MX_ERROR }, 400);
     }
+    const phone = formatPhoneMX(national);
 
     const apiKey = (env.RESEND_API_KEY ?? "").trim();
     if (!apiKey) {
@@ -83,12 +87,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     const text = [
       `Nombre: ${fname}`,
       `Correo: ${email}`,
-      phone && `Teléfono: ${phone}`,
-      company && `Empresa: ${company}`,
-      subject && `Asunto: ${subject}`,
+      `Teléfono: ${phone}`,
+      `Empresa: ${company}`,
+      `Asunto: ${subject}`,
+      "",
+      message,
     ]
-      .filter(Boolean)
-      .concat("", message)
       .join("\n");
 
     let resendResponse: Response;
@@ -103,9 +107,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
           from,
           to,
           reply_to: email,
-          subject: subject
-            ? `Contacto web: ${subject}`
-            : `Nuevo mensaje de contacto de ${fname}${company ? ` (${company})` : ""}`,
+          subject: `Contacto web: ${subject}`,
           text,
         }),
       });
