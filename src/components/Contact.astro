@@ -72,7 +72,8 @@ const {
                     type="email"
                     class="form-control input-style-2"
                     name="email"
-                    placeholder="Coloca tu correo electrónico*"
+                    placeholder="Coloca tu correo empresarial*"
+                    autocomplete="email"
                     required
                   />
                   <span class="alert alert-error"></span>
@@ -87,7 +88,8 @@ const {
                     maxlength="20"
                     class="form-control input-style-2"
                     name="phone"
-                    placeholder="Teléfono (10 dígitos)"
+                    placeholder="Teléfono (10 dígitos)*"
+                    required
                   />
                   <span class="alert alert-error"></span>
                 </div>
@@ -98,7 +100,8 @@ const {
                     type="text"
                     class="form-control input-style-2"
                     name="company"
-                    placeholder="Nombre de la empresa"
+                    placeholder="Nombre de la empresa*"
+                    required
                     autocomplete="organization"
                   />
                   <span class="alert alert-error"></span>
@@ -110,7 +113,8 @@ const {
                     type="text"
                     class="form-control input-style-2"
                     name="subject"
-                    placeholder="Asunto..."
+                    placeholder="Asunto*"
+                    required
                   />
                   <span class="alert alert-error"></span>
                 </div>
@@ -119,7 +123,7 @@ const {
                 <textarea
                   class="form-control input-style-2"
                   name="message"
-                  placeholder="Coloca tu mensaje..."
+                  placeholder="Coloca tu mensaje*"
                   required></textarea>
                 <div class="contact-sub-btn text-center">
                   <button type="submit" name="submit" id="submit" class="btn-4">
@@ -142,9 +146,10 @@ const {
 <script>
   import { navigate } from "astro:transitions/client";
   import { normalizePhoneMX, PHONE_MX_ERROR } from "../lib/phone-mx";
+  import { EMAIL_EMPRESARIAL_ERROR, isBusinessEmail, isValidEmail } from "../lib/email-empresarial";
 
   document.querySelectorAll<HTMLFormElement>(".contact-form").forEach((form) => {
-    // Teléfono opcional: si se escribe algo, debe ser un número de México válido.
+    // Teléfono obligatorio: debe ser un número de México válido (el vacío lo cubre `required`).
     // setCustomValidity hace que el navegador bloquee el envío y muestre el mensaje.
     const phoneInput = form.querySelector<HTMLInputElement>('input[name="phone"]');
     const validatePhone = () => {
@@ -163,8 +168,27 @@ const {
       if (phoneInput.value.trim()) phoneInput.reportValidity();
     });
 
+    // Correo obligatorio y empresarial: se rechazan proveedores gratuitos.
+    // El formato lo valida el propio type="email"; aquí solo se añade la regla de dominio.
+    const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
+    const validateEmail = () => {
+      if (!emailInput) return;
+      const value = emailInput.value.trim();
+      emailInput.setCustomValidity(
+        value && isValidEmail(value) && !isBusinessEmail(value) ? EMAIL_EMPRESARIAL_ERROR : "",
+      );
+    };
+    emailInput?.addEventListener("input", validateEmail);
+    emailInput?.addEventListener("blur", () => {
+      validateEmail();
+      if (emailInput.value.trim()) emailInput.reportValidity();
+    });
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
+      validatePhone();
+      validateEmail();
+      if (!form.reportValidity()) return;
 
       const submitBtn = form.querySelector<HTMLButtonElement>("#submit");
       const messageBox = form.querySelector<HTMLDivElement>("#message");
