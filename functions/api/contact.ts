@@ -43,7 +43,37 @@ async function parseBody(request: Request): Promise<ContactPayload> {
   throw new Error(`Content-Type no soportado: ${contentType}`);
 }
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+/**
+ * Envío clásico del formulario (sin JavaScript): en lugar de mostrar JSON en una
+ * pestaña en blanco, regresar a la página del formulario con el error en ?error=.
+ */
+function errorRedirect(request: Request, message: string) {
+  const origin = new URL(request.url).origin;
+  let back = new URL("/contact/", origin);
+  const referer = request.headers.get("referer");
+  if (referer) {
+    try {
+      const ref = new URL(referer);
+      if (ref.origin === origin) back = ref;
+    } catch {
+      // Referer inválido: usar /contact/
+    }
+  }
+  back.searchParams.set("error", message);
+  back.hash = "contact";
+  return Response.redirect(back.toString(), 303);
+}
+
+export const onRequestPost: PagesFunction<Env> = async (context) => {
+  const isJson = (context.request.headers.get("content-type") ?? "").includes("application/json");
+  const response = await handleContact(context);
+  if (isJson || response.ok || response.status === 303) return response;
+
+  const { error } = (await response.json()) as { error?: string };
+  return errorRedirect(context.request, error || "No se pudo enviar el mensaje. Intenta de nuevo.");
+};
+
+const handleContact: PagesFunction<Env> = async ({ request, env }) => {
   try {
     let data: ContactPayload;
     try {
