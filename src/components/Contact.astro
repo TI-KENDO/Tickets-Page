@@ -148,82 +148,98 @@ const {
   import { normalizePhoneMX, PHONE_MX_ERROR } from "../lib/phone-mx";
   import { EMAIL_EMPRESARIAL_ERROR, isBusinessEmail, isValidEmail } from "../lib/email-empresarial";
 
-  document.querySelectorAll<HTMLFormElement>(".contact-form").forEach((form) => {
-    // Teléfono obligatorio: debe ser un número de México válido (el vacío lo cubre `required`).
-    // setCustomValidity hace que el navegador bloquee el envío y muestre el mensaje.
-    const phoneInput = form.querySelector<HTMLInputElement>('input[name="phone"]');
-    const validatePhone = () => {
-      if (!phoneInput) return;
-      const value = phoneInput.value.trim();
-      phoneInput.setCustomValidity(value && !normalizePhoneMX(value) ? PHONE_MX_ERROR : "");
-    };
-    phoneInput?.addEventListener("input", () => {
-      // Solo permite dígitos, espacios, +, (, ), - y .
-      const cleaned = phoneInput.value.replace(/[^\d\s()+.-]/g, "");
-      if (cleaned !== phoneInput.value) phoneInput.value = cleaned;
-      validatePhone();
-    });
-    phoneInput?.addEventListener("blur", () => {
-      validatePhone();
-      if (phoneInput.value.trim()) phoneInput.reportValidity();
-    });
-
-    // Correo obligatorio y empresarial: se rechazan proveedores gratuitos.
-    // El formato lo valida el propio type="email"; aquí solo se añade la regla de dominio.
-    const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
-    const validateEmail = () => {
-      if (!emailInput) return;
-      const value = emailInput.value.trim();
-      emailInput.setCustomValidity(
-        value && isValidEmail(value) && !isBusinessEmail(value) ? EMAIL_EMPRESARIAL_ERROR : "",
-      );
-    };
-    emailInput?.addEventListener("input", validateEmail);
-    emailInput?.addEventListener("blur", () => {
-      validateEmail();
-      if (emailInput.value.trim()) emailInput.reportValidity();
-    });
-
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      validatePhone();
-      validateEmail();
-      if (!form.reportValidity()) return;
-
-      const submitBtn = form.querySelector<HTMLButtonElement>("#submit");
-      const messageBox = form.querySelector<HTMLDivElement>("#message");
-      if (!messageBox) return;
-
-      submitBtn?.setAttribute("disabled", "disabled");
-      messageBox.textContent = "Enviando...";
-      messageBox.className = "alert-msg";
-
-      try {
-        const formData = new FormData(form);
-        const payload = Object.fromEntries(formData.entries());
-
-        const response = await fetch(form.action, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-
-        const result = (await response.json()) as { ok?: boolean; error?: string };
-
-        if (response.ok && result.ok) {
-          form.reset();
-          await navigate("/gracias/");
-          return;
-        } else {
-          messageBox.textContent = result.error || "No se pudo enviar el mensaje. Intenta de nuevo.";
-          messageBox.className = "alert-msg alert-error";
-        }
-      } catch {
-        messageBox.textContent = "Error de conexión. Intenta de nuevo más tarde.";
-        messageBox.className = "alert-msg alert-error";
-      } finally {
-        submitBtn?.removeAttribute("disabled");
+  // Con <ClientRouter /> este script solo se ejecuta una vez; astro:page-load se dispara
+  // en la carga inicial y tras cada navegación, así cada formulario nuevo queda conectado.
+  document.addEventListener("astro:page-load", () => {
+    document.querySelectorAll<HTMLFormElement>(".contact-form").forEach((form) => {
+      // Error devuelto por la API en un envío sin JavaScript (?error=...): mostrarlo en el formulario.
+      const params = new URLSearchParams(location.search);
+      const serverError = params.get("error");
+      const messageBoxInit = form.querySelector<HTMLDivElement>("#message");
+      if (serverError && messageBoxInit) {
+        messageBoxInit.textContent = serverError;
+        messageBoxInit.className = "alert-msg alert-error";
+        params.delete("error");
+        const query = params.toString();
+        history.replaceState(history.state, "", location.pathname + (query ? `?${query}` : "") + location.hash);
       }
-    });
+
+      // Teléfono obligatorio: debe ser un número de México válido (el vacío lo cubre `required`).
+      // setCustomValidity hace que el navegador bloquee el envío y muestre el mensaje.
+      const phoneInput = form.querySelector<HTMLInputElement>('input[name="phone"]');
+      const validatePhone = () => {
+        if (!phoneInput) return;
+        const value = phoneInput.value.trim();
+        phoneInput.setCustomValidity(value && !normalizePhoneMX(value) ? PHONE_MX_ERROR : "");
+      };
+      phoneInput?.addEventListener("input", () => {
+        // Solo permite dígitos, espacios, +, (, ), - y .
+        const cleaned = phoneInput.value.replace(/[^\d\s()+.-]/g, "");
+        if (cleaned !== phoneInput.value) phoneInput.value = cleaned;
+        validatePhone();
+      });
+      phoneInput?.addEventListener("blur", () => {
+        validatePhone();
+        if (phoneInput.value.trim()) phoneInput.reportValidity();
+      });
+
+      // Correo obligatorio y empresarial: se rechazan proveedores gratuitos.
+      // El formato lo valida el propio type="email"; aquí solo se añade la regla de dominio.
+      const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
+      const validateEmail = () => {
+        if (!emailInput) return;
+        const value = emailInput.value.trim();
+        emailInput.setCustomValidity(
+          value && isValidEmail(value) && !isBusinessEmail(value) ? EMAIL_EMPRESARIAL_ERROR : "",
+        );
+      };
+      emailInput?.addEventListener("input", validateEmail);
+      emailInput?.addEventListener("blur", () => {
+        validateEmail();
+        if (emailInput.value.trim()) emailInput.reportValidity();
+      });
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        validatePhone();
+        validateEmail();
+        if (!form.reportValidity()) return;
+
+        const submitBtn = form.querySelector<HTMLButtonElement>("#submit");
+        const messageBox = form.querySelector<HTMLDivElement>("#message");
+        if (!messageBox) return;
+
+        submitBtn?.setAttribute("disabled", "disabled");
+        messageBox.textContent = "Enviando...";
+        messageBox.className = "alert-msg";
+
+        try {
+          const formData = new FormData(form);
+          const payload = Object.fromEntries(formData.entries());
+
+          const response = await fetch(form.action, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          const result = (await response.json()) as { ok?: boolean; error?: string };
+
+          if (response.ok && result.ok) {
+            form.reset();
+            await navigate("/gracias/");
+            return;
+          } else {
+            messageBox.textContent = result.error || "No se pudo enviar el mensaje. Intenta de nuevo.";
+            messageBox.className = "alert-msg alert-error";
+          }
+        } catch {
+          messageBox.textContent = "Error de conexión. Intenta de nuevo más tarde.";
+          messageBox.className = "alert-msg alert-error";
+        } finally {
+          submitBtn?.removeAttribute("disabled");
+        }
+      });
+  });
   });
 </script>
