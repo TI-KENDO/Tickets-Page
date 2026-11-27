@@ -227,6 +227,9 @@ const {
 
           if (response.ok && result.ok) {
             form.reset();
+            // Conversión para Google Ads (configurar en GTM con el evento "generate_lead").
+            const w = window as unknown as { dataLayer?: unknown[] };
+            (w.dataLayer = w.dataLayer || []).push({ event: "generate_lead", form_id: "contacto" });
             await navigate("/gracias/");
             return;
           } else {

@@ -23,6 +23,29 @@ const {
 <!doctype html>
 <html class="no-js" lang="es">
 <head>
+  <!-- Google Tag Manager -->
+  <script is:inline>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TKH7QM43');
+
+    // ClientRouter navega sin recargar: enviamos un page_view virtual en cada
+    // navegación posterior a la carga inicial (la inicial la cubre gtm.js).
+    (function(){
+      var first = true;
+      document.addEventListener('astro:page-load', function(){
+        if (first) { first = false; return; }
+        window.dataLayer.push({
+          event: 'virtual_page_view',
+          page_path: location.pathname + location.search,
+          page_title: document.title,
+        });
+      });
+    })();
+  </script>
+  <!-- End Google Tag Manager -->
   <ClientRouter />
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -64,6 +87,10 @@ const {
   <link href="/assets/css/responsive.css" rel="stylesheet" />
 </head>
 <body id="bdy">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKH7QM43"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
   
   <Header />
   
